@@ -4,6 +4,7 @@ import { BLOG_POSTS } from '../data/blogData';
 import { TOOLS_LIST } from '../data/toolsList';
 import { useLanguage } from '../hooks/useLanguage';
 import { SEOHead } from '../components/common/SEOHead';
+import { siteConfig } from '../config/site';
 import {
   Calendar,
   Clock,
@@ -50,11 +51,11 @@ export const BlogPostPage: React.FC = () => {
     publisher: {
       '@type': 'Organization',
       name: 'StatKick',
-      url: 'https://statkick.com',
+      url: siteConfig.url,
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://statkick.com/blog/${post.slug}`,
+      '@id': `${siteConfig.url}/blog/${post.slug}`,
     },
   };
 

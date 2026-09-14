@@ -139,7 +139,7 @@ export function formatCurrencyExact(value: number, symbol: string = '€'): stri
  * Clamps a number between a lower and upper bound.
  */
 export function clamp(value: number, min: number, max: number): number {
-  if (isNaN(value)) return min;
+  if (typeof value !== 'number' || isNaN(value) || !isFinite(value)) return min;
   return Math.min(Math.max(value, min), max);
 }
 

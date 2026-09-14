@@ -51,25 +51,12 @@ export const AdSlot: React.FC<AdSlotProps> = ({
     return unsubscribe;
   }, []);
 
-  // 1. Global enable check and publisher ID validation
-  if (!adsConfig.enabled || !isValidPublisherId(adsConfig.client)) {
-    return null;
-  }
-
-  // 2. User consent check via CMP
-  if (!consentGranted) {
-    return null;
-  }
-
-  // 3. Excluded legal and administrative routes check
+  // Compute route exclusion
   const isExcluded = EXCLUDED_ROUTES.some(
     (route) => location.pathname === route || location.pathname.startsWith(`${route}/`)
   );
-  if (isExcluded) {
-    return null;
-  }
 
-  // 4. Resolve and validate slot ID
+  // Resolve slot ID
   let slotId = '';
   if (slotNumber === 1 || position === 'slot1-header') {
     slotId = adsConfig.slots.slot1Header;
@@ -81,16 +68,17 @@ export const AdSlot: React.FC<AdSlotProps> = ({
     slotId = adsConfig.slots.slot4Footer;
   }
 
-  if (!isValidSlotId(slotId)) {
-    return null;
-  }
-
   const isPersonalized = canServePersonalizedAds();
 
+  const isReady =
+    adsConfig.enabled &&
+    isValidPublisherId(adsConfig.client) &&
+    consentGranted &&
+    !isExcluded &&
+    isValidSlotId(slotId);
+
   useEffect(() => {
-    if (!adsConfig.enabled || !isValidPublisherId(adsConfig.client) || !consentGranted || isExcluded || !isValidSlotId(slotId)) {
-      return;
-    }
+    if (!isReady) return;
 
     // Ensure AdSense script is dynamically loaded strictly when consent is granted and publisher ID is valid
     const existingScript = document.querySelector('script[src*="pagead2.googlesyndication.com"]');
@@ -107,7 +95,12 @@ export const AdSlot: React.FC<AdSlotProps> = ({
     } catch {
       // Silently handle blocked scripts or preview iframe environments
     }
-  }, [consentGranted, isExcluded, slotId]);
+  }, [isReady, slotId, consentGranted]);
+
+  // If not ready, return null AFTER all hooks have executed unconditionally
+  if (!isReady) {
+    return null;
+  }
 
   const variantDimensions = {
     skyscraper: 'min-h-[600px] w-[160px]',

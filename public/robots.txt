@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://statkick.com/sitemap.xml
+Sitemap: https://statkick.pages.dev/sitemap.xml

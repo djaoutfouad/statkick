@@ -6,6 +6,7 @@ import { ToolFAQ } from './ToolFAQ';
 import { ToolMeta, FAQItem, BreadcrumbItem } from '../../types';
 import { useLanguage } from '../../hooks/useLanguage';
 import { SEOHead } from '../common/SEOHead';
+import { siteConfig } from '../../config/site';
 import { Sparkles, BookOpen, Calculator, LineChart, Info } from 'lucide-react';
 
 interface ToolLayoutProps {
@@ -58,11 +59,11 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
         applicationCategory: 'SportsApplication',
         operatingSystem: 'All',
         description: displayDesc,
-        url: `https://statkick.com/tools/${tool.slug}`,
+        url: `${siteConfig.url}/tools/${tool.slug}`,
         author: {
           '@type': 'Organization',
           name: 'StatKick',
-          url: 'https://statkick.com/about',
+          url: `${siteConfig.url}/about`,
         },
       },
       {

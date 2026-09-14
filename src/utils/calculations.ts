@@ -1,4 +1,4 @@
-import { safeDivide, clamp } from './formatters';
+import { safeDivide, clamp, sanitizeNumericInput } from './formatters';
 
 // 1. Player Performance Rater
 export type PlayerPosition = 'GK' | 'DEF' | 'MID' | 'FWD';
@@ -28,7 +28,15 @@ export interface PlayerRaterResult {
 }
 
 export function calculatePlayerPerformance(input: PlayerRaterInput): PlayerRaterResult {
-  const { position, goals, assists, passAccuracy, shotsOnTargetPercent, dribbles, tackles, saves = 0, cleanSheet = false } = input;
+  const position = input.position || 'FWD';
+  const goals = sanitizeNumericInput(input.goals, 0, 0, 100);
+  const assists = sanitizeNumericInput(input.assists, 0, 0, 100);
+  const passAccuracy = sanitizeNumericInput(input.passAccuracy, 0, 0, 100);
+  const shotsOnTargetPercent = sanitizeNumericInput(input.shotsOnTargetPercent, 0, 0, 100);
+  const dribbles = sanitizeNumericInput(input.dribbles, 0, 0, 100);
+  const tackles = sanitizeNumericInput(input.tackles, 0, 0, 100);
+  const saves = sanitizeNumericInput(input.saves, 0, 0, 100);
+  const cleanSheet = Boolean(input.cleanSheet);
   let raw = 0;
 
   switch (position) {
@@ -112,6 +120,20 @@ export interface TeamComparisonResult {
 }
 
 export function compareTeams(teamA: TeamStats, teamB: TeamStats): TeamComparisonResult {
+  const sanitizeTeam = (t: TeamStats): TeamStats => ({
+    name: t?.name || 'Team',
+    goalsPerGame: sanitizeNumericInput(t?.goalsPerGame, 0, 0, 20),
+    possession: sanitizeNumericInput(t?.possession, 50, 0, 100),
+    shotsPerGame: sanitizeNumericInput(t?.shotsPerGame, 0, 0, 100),
+    shotsOnTargetPerGame: sanitizeNumericInput(t?.shotsOnTargetPerGame, 0, 0, 50),
+    passAccuracy: sanitizeNumericInput(t?.passAccuracy, 0, 0, 100),
+    tacklesPerGame: sanitizeNumericInput(t?.tacklesPerGame, 0, 0, 100),
+    cornersPerGame: sanitizeNumericInput(t?.cornersPerGame, 0, 0, 50),
+  });
+
+  const cleanTeamA = sanitizeTeam(teamA);
+  const cleanTeamB = sanitizeTeam(teamB);
+
   const metricList = [
     { key: 'goalsPerGame', name: 'Goals / Game', unit: '' },
     { key: 'possession', name: 'Possession %', unit: '%' },
@@ -127,8 +149,8 @@ export function compareTeams(teamA: TeamStats, teamB: TeamStats): TeamComparison
   let ties = 0;
 
   const categories = metricList.map((m) => {
-    const valA = teamA[m.key as keyof TeamStats] as number;
-    const valB = teamB[m.key as keyof TeamStats] as number;
+    const valA = cleanTeamA[m.key as keyof TeamStats] as number;
+    const valB = cleanTeamB[m.key as keyof TeamStats] as number;
     let winner: 'Team A' | 'Team B' | 'Tie' = 'Tie';
     if (valA > valB) {
       winner = 'Team A';
@@ -152,8 +174,8 @@ export function compareTeams(teamA: TeamStats, teamB: TeamStats): TeamComparison
   const teamBDominance = Math.round((teamBWins / 7) * 100);
 
   let overallWinner = 'Even Contest (Draw)';
-  if (teamAWins > teamBWins) overallWinner = `${teamA.name || 'Team A'} Dominates`;
-  else if (teamBWins > teamAWins) overallWinner = `${teamB.name || 'Team B'} Dominates`;
+  if (teamAWins > teamBWins) overallWinner = `${cleanTeamA.name || 'Team A'} Dominates`;
+  else if (teamBWins > teamAWins) overallWinner = `${cleanTeamB.name || 'Team B'} Dominates`;
 
   return {
     categories,
@@ -176,9 +198,15 @@ export interface PassAccuracyInput {
 }
 
 export function calculatePassAccuracy(input: PassAccuracyInput) {
-  const passAccuracy = clamp(safeDivide(input.completedPasses, input.totalPasses) * 100, 0, 100);
-  const longBallAccuracy = clamp(safeDivide(input.longBallsCompleted, input.longBallsAttempted) * 100, 0, 100);
-  const rawQuality = (passAccuracy * 0.6) + (input.keyPasses * 2) + (longBallAccuracy * 0.4);
+  const totalPasses = sanitizeNumericInput(input?.totalPasses, 0, 0, 1000);
+  const completedPasses = clamp(sanitizeNumericInput(input?.completedPasses, 0, 0, 1000), 0, totalPasses);
+  const longBallsAttempted = sanitizeNumericInput(input?.longBallsAttempted, 0, 0, 200);
+  const longBallsCompleted = clamp(sanitizeNumericInput(input?.longBallsCompleted, 0, 0, 200), 0, longBallsAttempted);
+  const keyPasses = sanitizeNumericInput(input?.keyPasses, 0, 0, 100);
+
+  const passAccuracy = clamp(safeDivide(completedPasses, totalPasses) * 100, 0, 100);
+  const longBallAccuracy = clamp(safeDivide(longBallsCompleted, longBallsAttempted) * 100, 0, 100);
+  const rawQuality = (passAccuracy * 0.6) + (keyPasses * 2) + (longBallAccuracy * 0.4);
   const qualityScore = clamp(Math.round(rawQuality), 0, 100);
 
   let ratingLabel = 'Standard Distributor';
@@ -205,10 +233,16 @@ export interface ShotConversionInput {
 }
 
 export function calculateShotConversion(input: ShotConversionInput) {
-  const conversionRate = clamp(safeDivide(input.goals, input.totalShots) * 100, 0, 100);
-  const onTargetConversion = clamp(safeDivide(input.goals, input.shotsOnTarget) * 100, 0, 100);
-  const bigChancesScored = Math.max(0, input.bigChances - input.bigChancesMissed);
-  const bigChanceConversion = clamp(safeDivide(bigChancesScored, input.bigChances) * 100, 0, 100);
+  const totalShots = sanitizeNumericInput(input?.totalShots, 0, 0, 500);
+  const goals = clamp(sanitizeNumericInput(input?.goals, 0, 0, 500), 0, totalShots);
+  const shotsOnTarget = clamp(sanitizeNumericInput(input?.shotsOnTarget, 0, 0, 500), 0, totalShots);
+  const bigChances = sanitizeNumericInput(input?.bigChances, 0, 0, 200);
+  const bigChancesMissed = clamp(sanitizeNumericInput(input?.bigChancesMissed, 0, 0, 200), 0, bigChances);
+
+  const conversionRate = clamp(safeDivide(goals, totalShots) * 100, 0, 100);
+  const onTargetConversion = clamp(safeDivide(goals, shotsOnTarget) * 100, 0, 100);
+  const bigChancesScored = Math.max(0, bigChances - bigChancesMissed);
+  const bigChanceConversion = clamp(safeDivide(bigChancesScored, bigChances) * 100, 0, 100);
 
   let efficiencyRating = 'Average Finishing';
   if (conversionRate >= 22) efficiencyRating = 'Clinical / World-Class Lethality';
@@ -236,10 +270,18 @@ export interface PossessionImpactInput {
 }
 
 export function calculatePossessionImpact(input: PossessionImpactInput) {
-  const winRate = clamp(safeDivide(input.wins, input.matches) * 100, 0, 100);
-  const goalsPerGame = safeDivide(input.goalsScored, input.matches);
-  const concededPerGame = safeDivide(input.goalsConceded, input.matches);
-  const efficiencyIndex = safeDivide(winRate, input.possessionPercent);
+  const possessionPercent = sanitizeNumericInput(input?.possessionPercent, 50, 0, 100);
+  const matches = sanitizeNumericInput(input?.matches, 0, 0, 100);
+  const wins = sanitizeNumericInput(input?.wins, 0, 0, matches || 100);
+  const draws = sanitizeNumericInput(input?.draws, 0, 0, matches || 100);
+  const losses = sanitizeNumericInput(input?.losses, 0, 0, matches || 100);
+  const goalsScored = sanitizeNumericInput(input?.goalsScored, 0, 0, 500);
+  const goalsConceded = sanitizeNumericInput(input?.goalsConceded, 0, 0, 500);
+
+  const winRate = clamp(safeDivide(wins, matches) * 100, 0, 100);
+  const goalsPerGame = safeDivide(goalsScored, matches);
+  const concededPerGame = safeDivide(goalsConceded, matches);
+  const efficiencyIndex = safeDivide(winRate, possessionPercent);
 
   let verdict = 'Balanced Possession';
   if (efficiencyIndex >= 1.3) verdict = 'Lethal High-Return Possession (Elite Conversion)';
@@ -267,9 +309,16 @@ export interface PlayerFormInput {
 }
 
 export function calculatePlayerForm(input: PlayerFormInput) {
-  const base = (input.goalsLast5 * 1.5) + (input.assistsLast5 * 1.2) + (input.avgRatingLast5 * 0.8);
-  const deductions = (input.yellowCards * 0.3) + (input.redCards * 1.0);
-  const minutesBonus = input.minutesLast5 > 400 ? 0.5 : 0;
+  const goalsLast5 = sanitizeNumericInput(input?.goalsLast5, 0, 0, 30);
+  const assistsLast5 = sanitizeNumericInput(input?.assistsLast5, 0, 0, 30);
+  const avgRatingLast5 = sanitizeNumericInput(input?.avgRatingLast5, 6.0, 1.0, 10.0);
+  const minutesLast5 = sanitizeNumericInput(input?.minutesLast5, 0, 0, 600);
+  const yellowCards = sanitizeNumericInput(input?.yellowCards, 0, 0, 10);
+  const redCards = sanitizeNumericInput(input?.redCards, 0, 0, 5);
+
+  const base = (goalsLast5 * 1.5) + (assistsLast5 * 1.2) + (avgRatingLast5 * 0.8);
+  const deductions = (yellowCards * 0.3) + (redCards * 1.0);
+  const minutesBonus = minutesLast5 > 400 ? 0.5 : 0;
   const rawScore = base - deductions + minutesBonus;
   const formScore = clamp(Number(rawScore.toFixed(1)), 1.0, 10.0);
 
@@ -294,45 +343,53 @@ export interface TransferValueInput {
   position: 'GK' | 'DEF' | 'MID' | 'WIN' | 'FWD';
   goalsSeason: number;
   assistsSeason: number;
-  leagueLevel: 'Tier1' | 'Tier2' | 'Tier3'; // Tier 1: Premier League/La Liga (1.5x), Tier 2: Eredivisie/Championship (1.1x), Tier 3: Other (0.8x)
-  contractYears: number; // 1-5+
+  leagueLevel: 'Tier1' | 'Tier2' | 'Tier3';
+  contractYears: number;
   internationalCaps: number;
 }
 
 export function calculateTransferValue(input: TransferValueInput) {
-  const baseValues = { GK: 8, DEF: 10, MID: 12, WIN: 15, FWD: 18 };
-  const base = baseValues[input.position] || 12;
+  const age = sanitizeNumericInput(input?.age, 25, 14, 50);
+  const position = input?.position || 'MID';
+  const goalsSeason = sanitizeNumericInput(input?.goalsSeason, 0, 0, 150);
+  const assistsSeason = sanitizeNumericInput(input?.assistsSeason, 0, 0, 150);
+  const leagueLevel = input?.leagueLevel || 'Tier1';
+  const contractYears = sanitizeNumericInput(input?.contractYears, 3, 0, 10);
+  const internationalCaps = sanitizeNumericInput(input?.internationalCaps, 0, 0, 300);
 
-  // Age multiplier (peak 23-27 = 1.35x, <21 = 1.2x wonderkid, >31 = 0.6x)
+  const baseValues = { GK: 8, DEF: 10, MID: 12, WIN: 15, FWD: 18 };
+  const base = baseValues[position] || 12;
+
+  // Age multiplier (peak 23-27 = 1.35x, <21 = 1.25x wonderkid, >31 = 0.65x)
   let ageMult = 1.0;
-  if (input.age < 21) ageMult = 1.25;
-  else if (input.age <= 24) ageMult = 1.35;
-  else if (input.age <= 28) ageMult = 1.25;
-  else if (input.age <= 30) ageMult = 0.95;
-  else if (input.age <= 33) ageMult = 0.65;
+  if (age < 21) ageMult = 1.25;
+  else if (age <= 24) ageMult = 1.35;
+  else if (age <= 28) ageMult = 1.25;
+  else if (age <= 30) ageMult = 0.95;
+  else if (age <= 33) ageMult = 0.65;
   else ageMult = 0.35;
 
   // Performance multiplier
-  const gAndA = input.goalsSeason + input.assistsSeason;
+  const gAndA = goalsSeason + assistsSeason;
   let perfMult = 1.0 + (gAndA * 0.05);
   perfMult = clamp(perfMult, 0.8, 2.5);
 
   // League multiplier
   const leagueMultipliers = { Tier1: 1.5, Tier2: 1.1, Tier3: 0.8 };
-  const leagueMult = leagueMultipliers[input.leagueLevel] || 1.0;
+  const leagueMult = leagueMultipliers[leagueLevel] || 1.0;
 
   // Contract multiplier
   let contractMult = 1.0;
-  if (input.contractYears <= 1) contractMult = 0.65;
-  else if (input.contractYears === 2) contractMult = 0.9;
-  else if (input.contractYears === 3) contractMult = 1.1;
+  if (contractYears <= 1) contractMult = 0.65;
+  else if (contractYears === 2) contractMult = 0.9;
+  else if (contractYears === 3) contractMult = 1.1;
   else contractMult = 1.3;
 
   // International bonus
   let capsBonus = 0;
-  if (input.internationalCaps > 30) capsBonus = 6;
-  else if (input.internationalCaps > 10) capsBonus = 3;
-  else if (input.internationalCaps > 0) capsBonus = 1;
+  if (internationalCaps > 30) capsBonus = 6;
+  else if (internationalCaps > 10) capsBonus = 3;
+  else if (internationalCaps > 0) capsBonus = 1;
 
   const estimatedValue = Number(((base * ageMult * perfMult * leagueMult * contractMult) + capsBonus).toFixed(1));
   const rangeLow = Number((estimatedValue * 0.8).toFixed(1));
@@ -373,20 +430,28 @@ export interface WageStructureInput {
 }
 
 export function calculateWageStructure(input: WageStructureInput) {
-  const baseWeeklyWage = Math.round(input.baseWeeklyWage);
+  const currency = input?.currency || '€';
+  const baseWeeklyWage = Math.round(sanitizeNumericInput(input?.baseWeeklyWage, 0, 0, 10_000_000));
+  const goalBonus = Math.round(sanitizeNumericInput(input?.goalBonus, 0, 0, 5_000_000));
+  const cleanSheetBonus = Math.round(sanitizeNumericInput(input?.cleanSheetBonus, 0, 0, 5_000_000));
+  const appearanceFee = Math.round(sanitizeNumericInput(input?.appearanceFee, 0, 0, 5_000_000));
+  const matchesPlayed = Math.round(sanitizeNumericInput(input?.matchesPlayed, 0, 0, 100));
+  const goalsScored = Math.round(sanitizeNumericInput(input?.goalsScored, 0, 0, 150));
+  const cleanSheetsKept = Math.round(sanitizeNumericInput(input?.cleanSheetsKept, 0, 0, 100));
+
   const baseAnnual = Math.round(baseWeeklyWage * 52);
   const monthlyBase = Math.round(baseWeeklyWage * 4.333);
   
-  const totalGoalBonuses = Math.round(input.goalBonus * input.goalsScored);
-  const totalCleanSheetBonuses = Math.round(input.cleanSheetBonus * input.cleanSheetsKept);
-  const totalAppearanceFees = Math.round(input.appearanceFee * input.matchesPlayed);
+  const totalGoalBonuses = Math.round(goalBonus * goalsScored);
+  const totalCleanSheetBonuses = Math.round(cleanSheetBonus * cleanSheetsKept);
+  const totalAppearanceFees = Math.round(appearanceFee * matchesPlayed);
   const totalBonuses = totalGoalBonuses + totalCleanSheetBonuses + totalAppearanceFees;
   
   const totalAnnualEarnings = baseAnnual + totalBonuses;
   const effectiveWeeklyWage = Math.round(totalAnnualEarnings / 52);
 
   return {
-    currency: input.currency,
+    currency,
     weeklyBase: baseWeeklyWage,
     monthlyBase,
     baseAnnual,
@@ -400,13 +465,17 @@ export function calculateWageStructure(input: WageStructureInput) {
 }
 
 export function calculateWage(input: WageInput) {
+  const transferValueM = sanitizeNumericInput(input?.transferValueM, 0, 0, 1000);
+  const leagueLevel = input?.leagueLevel || 'Tier1';
+  const squadStatus = input?.squadStatus || 'FirstTeam';
+
   const leagueFactors = { Tier1: 1000, Tier2: 600, Tier3: 350 };
-  const leagueFactor = leagueFactors[input.leagueLevel] || 800;
+  const leagueFactor = leagueFactors[leagueLevel] || 800;
 
   const statusMultipliers = { Key: 1.4, FirstTeam: 1.0, Rotation: 0.65, Youth: 0.35 };
-  const statusMult = statusMultipliers[input.squadStatus] || 1.0;
+  const statusMult = statusMultipliers[squadStatus] || 1.0;
 
-  const rawWeekly = (input.transferValueM * leagueFactor) * statusMult;
+  const rawWeekly = (transferValueM * leagueFactor) * statusMult;
   const weeklyWage = Math.max(1000, Math.round(rawWeekly));
   const monthlyWage = Math.round(weeklyWage * 4.333);
   const annualWage = Math.round(weeklyWage * 52);
@@ -428,7 +497,7 @@ export interface SquadPlayer {
 }
 
 export function calculateSquadValue(players: SquadPlayer[]) {
-  if (!players.length) {
+  if (!Array.isArray(players) || !players.length) {
     return {
       totalValue: 0,
       averageValue: 0,
@@ -441,21 +510,27 @@ export function calculateSquadValue(players: SquadPlayer[]) {
     };
   }
 
-  const sortedPlayers = [...players].sort((a, b) => b.valueMillions - a.valueMillions);
-  const totalValue = players.reduce((sum, p) => sum + (typeof p.valueMillions === 'number' && !isNaN(p.valueMillions) ? p.valueMillions : 0), 0);
-  const averageValue = totalValue / players.length;
-  const averageAge = players.reduce((sum, p) => sum + (typeof p.age === 'number' && !isNaN(p.age) ? p.age : 0), 0) / players.length;
+  const cleanPlayers = players.map((p) => ({
+    ...p,
+    valueMillions: sanitizeNumericInput(p.valueMillions, 0, 0, 1000),
+    age: sanitizeNumericInput(p.age, 0, 0, 100),
+  }));
+
+  const sortedPlayers = [...cleanPlayers].sort((a, b) => b.valueMillions - a.valueMillions);
+  const totalValue = cleanPlayers.reduce((sum, p) => sum + p.valueMillions, 0);
+  const averageValue = totalValue / cleanPlayers.length;
+  const averageAge = cleanPlayers.reduce((sum, p) => sum + p.age, 0) / cleanPlayers.length;
 
   const startingXI = sortedPlayers.slice(0, 11);
-  const startingXiValue = startingXI.reduce((sum, p) => sum + (typeof p.valueMillions === 'number' && !isNaN(p.valueMillions) ? p.valueMillions : 0), 0);
+  const startingXiValue = startingXI.reduce((sum, p) => sum + p.valueMillions, 0);
   const benchValue = Math.max(0, totalValue - startingXiValue);
   const mostValuable = sortedPlayers[0] || null;
 
   const byPosition = {
-    GK: players.filter((p) => p.position === 'GK').reduce((sum, p) => sum + (typeof p.valueMillions === 'number' && !isNaN(p.valueMillions) ? p.valueMillions : 0), 0),
-    DEF: players.filter((p) => p.position === 'DEF').reduce((sum, p) => sum + (typeof p.valueMillions === 'number' && !isNaN(p.valueMillions) ? p.valueMillions : 0), 0),
-    MID: players.filter((p) => p.position === 'MID').reduce((sum, p) => sum + (typeof p.valueMillions === 'number' && !isNaN(p.valueMillions) ? p.valueMillions : 0), 0),
-    FWD: players.filter((p) => p.position === 'FWD').reduce((sum, p) => sum + (typeof p.valueMillions === 'number' && !isNaN(p.valueMillions) ? p.valueMillions : 0), 0),
+    GK: cleanPlayers.filter((p) => p.position === 'GK').reduce((sum, p) => sum + p.valueMillions, 0),
+    DEF: cleanPlayers.filter((p) => p.position === 'DEF').reduce((sum, p) => sum + p.valueMillions, 0),
+    MID: cleanPlayers.filter((p) => p.position === 'MID').reduce((sum, p) => sum + p.valueMillions, 0),
+    FWD: cleanPlayers.filter((p) => p.position === 'FWD').reduce((sum, p) => sum + p.valueMillions, 0),
   };
 
   return {
@@ -481,11 +556,18 @@ export interface ContractWorthInput {
 }
 
 export function calculateContractWorth(input: ContractWorthInput) {
-  const totalSalary = input.annualSalary * input.contractYears;
-  const totalCommitment = input.transferFee + totalSalary + input.agentFee + input.signingBonus;
-  const annualCost = safeDivide(totalCommitment, input.contractYears);
-  const amortizationPerYear = safeDivide(input.transferFee, input.contractYears);
-  const costPerMatch = safeDivide(annualCost * 1_000_000, input.expectedMatchesPerSeason);
+  const transferFee = sanitizeNumericInput(input?.transferFee, 0, 0, 1000);
+  const annualSalary = sanitizeNumericInput(input?.annualSalary, 0, 0, 200);
+  const contractYears = Math.max(0.1, sanitizeNumericInput(input?.contractYears, 1, 0.1, 10));
+  const agentFee = sanitizeNumericInput(input?.agentFee, 0, 0, 100);
+  const signingBonus = sanitizeNumericInput(input?.signingBonus, 0, 0, 100);
+  const expectedMatchesPerSeason = Math.max(1, sanitizeNumericInput(input?.expectedMatchesPerSeason, 38, 1, 100));
+
+  const totalSalary = annualSalary * contractYears;
+  const totalCommitment = transferFee + totalSalary + agentFee + signingBonus;
+  const annualCost = safeDivide(totalCommitment, contractYears);
+  const amortizationPerYear = safeDivide(transferFee, contractYears);
+  const costPerMatch = safeDivide(annualCost * 1_000_000, expectedMatchesPerSeason);
 
   return {
     totalCommitment: Number(totalCommitment.toFixed(2)),
@@ -517,61 +599,73 @@ export interface FantasyPointsInput {
 }
 
 export function calculateFantasyPoints(input: FantasyPointsInput) {
+  const position = input?.position || 'MID';
+  const minutesPlayed = sanitizeNumericInput(input?.minutesPlayed, 0, 0, 150);
+  const goalsScored = sanitizeNumericInput(input?.goalsScored, 0, 0, 20);
+  const assists = sanitizeNumericInput(input?.assists, 0, 0, 20);
+  const goalsConceded = sanitizeNumericInput(input?.goalsConceded, 0, 0, 30);
+  const yellowCards = sanitizeNumericInput(input?.yellowCards, 0, 0, 5);
+  const redCards = sanitizeNumericInput(input?.redCards, 0, 0, 2);
+  const ownGoals = sanitizeNumericInput(input?.ownGoals, 0, 0, 5);
+  const penaltySaves = sanitizeNumericInput(input?.penaltySaves, 0, 0, 5);
+  const penaltyMisses = sanitizeNumericInput(input?.penaltyMisses, 0, 0, 5);
+  const saves = sanitizeNumericInput(input?.saves, 0, 0, 50);
+  const bonusPoints = sanitizeNumericInput(input?.bonusPoints, 0, 0, 3);
+  const cbit = sanitizeNumericInput(input?.cbit, 0, 0, 100);
+  const cbirt = sanitizeNumericInput(input?.cbirt, 0, 0, 100);
+
   let minutesPoints = 0;
-  if (input.minutesPlayed >= 60) minutesPoints = 2;
-  else if (input.minutesPlayed > 0) minutesPoints = 1;
+  if (minutesPlayed >= 60) minutesPoints = 2;
+  else if (minutesPlayed > 0) minutesPoints = 1;
 
   let goalValue = 4;
-  if (input.position === 'GK') goalValue = 10;
-  else if (input.position === 'DEF') goalValue = 6;
-  else if (input.position === 'MID') goalValue = 5;
-  else if (input.position === 'FWD') goalValue = 4;
-  const goalPoints = input.goalsScored * goalValue;
+  if (position === 'GK') goalValue = 10;
+  else if (position === 'DEF') goalValue = 6;
+  else if (position === 'MID') goalValue = 5;
+  else if (position === 'FWD') goalValue = 4;
+  const goalPoints = goalsScored * goalValue;
 
-  const assistPoints = input.assists * 3;
+  const assistPoints = assists * 3;
 
   let cleanSheetPoints = 0;
-  if (input.cleanSheet && input.minutesPlayed >= 60) {
-    if (input.position === 'GK' || input.position === 'DEF') cleanSheetPoints = 4;
-    else if (input.position === 'MID') cleanSheetPoints = 1;
+  if (input?.cleanSheet && minutesPlayed >= 60) {
+    if (position === 'GK' || position === 'DEF') cleanSheetPoints = 4;
+    else if (position === 'MID') cleanSheetPoints = 1;
   }
 
   let concededPoints = 0;
-  if ((input.position === 'GK' || input.position === 'DEF') && input.goalsConceded >= 2) {
-    concededPoints = -Math.floor(input.goalsConceded / 2);
+  if ((position === 'GK' || position === 'DEF') && goalsConceded >= 2) {
+    concededPoints = -Math.floor(goalsConceded / 2);
   }
 
-  // Defensive Contribution scoring:
-  // DEF: +2 for 10+ CBIT (Clearances, Blocks, Interceptions, Tackles)
-  // MID/FWD: +2 for 12+ CBIRT (CBIT + Recoveries)
   let defContributionPoints = 0;
-  if (input.position === 'DEF' && (input.cbit ?? 0) >= 10) {
+  if (position === 'DEF' && cbit >= 10) {
     defContributionPoints = 2;
-  } else if ((input.position === 'MID' || input.position === 'FWD') && (input.cbirt ?? 0) >= 12) {
+  } else if ((position === 'MID' || position === 'FWD') && cbirt >= 12) {
     defContributionPoints = 2;
   }
 
-  const yellowPoints = input.yellowCards * -1;
-  const redPoints = input.redCards * -3;
-  const ownGoalPoints = input.ownGoals * -2;
-  const penaltySavePoints = input.penaltySaves * 5;
-  const penaltyMissPoints = input.penaltyMisses * -2;
-  const savesPoints = Math.floor(input.saves / 3);
+  const yellowPoints = yellowCards * -1;
+  const redPoints = redCards * -3;
+  const ownGoalPoints = ownGoals * -2;
+  const penaltySavePoints = penaltySaves * 5;
+  const penaltyMissPoints = penaltyMisses * -2;
+  const savesPoints = Math.floor(saves / 3);
 
   const breakdown = [
-    { item: `Appearance (${input.minutesPlayed} mins)`, points: minutesPoints },
-    { item: `Goals Scored (${input.goalsScored} × ${goalValue} pts)`, points: goalPoints },
-    { item: `Assists (${input.assists} × 3 pts)`, points: assistPoints },
+    { item: `Appearance (${minutesPlayed} mins)`, points: minutesPoints },
+    { item: `Goals Scored (${goalsScored} × ${goalValue} pts)`, points: goalPoints },
+    { item: `Assists (${assists} × 3 pts)`, points: assistPoints },
     { item: `Clean Sheet`, points: cleanSheetPoints },
-    { item: `Goals Conceded (${input.goalsConceded})`, points: concededPoints },
+    { item: `Goals Conceded (${goalsConceded})`, points: concededPoints },
     { item: `Defensive Contribution Bonus`, points: defContributionPoints },
-    { item: `Yellow Cards (${input.yellowCards})`, points: yellowPoints },
-    { item: `Red Cards (${input.redCards})`, points: redPoints },
-    { item: `Own Goals (${input.ownGoals})`, points: ownGoalPoints },
-    { item: `Penalty Saves (${input.penaltySaves})`, points: penaltySavePoints },
-    { item: `Penalty Misses (${input.penaltyMisses})`, points: penaltyMissPoints },
-    { item: `Goalkeeper Saves (${input.saves})`, points: savesPoints },
-    { item: `Bonus Points`, points: input.bonusPoints },
+    { item: `Yellow Cards (${yellowCards})`, points: yellowPoints },
+    { item: `Red Cards (${redCards})`, points: redPoints },
+    { item: `Own Goals (${ownGoals})`, points: ownGoalPoints },
+    { item: `Penalty Saves (${penaltySaves})`, points: penaltySavePoints },
+    { item: `Penalty Misses (${penaltyMisses})`, points: penaltyMissPoints },
+    { item: `Goalkeeper Saves (${saves})`, points: savesPoints },
+    { item: `Bonus Points`, points: bonusPoints },
   ].filter((b) => b.points !== 0 || b.item.includes('Appearance'));
 
   const totalPoints =
@@ -587,7 +681,7 @@ export function calculateFantasyPoints(input: FantasyPointsInput) {
     penaltySavePoints +
     penaltyMissPoints +
     savesPoints +
-    input.bonusPoints;
+    bonusPoints;
 
   return {
     totalPoints,
@@ -614,14 +708,21 @@ export function selectBestXI(players: BestXIPlayer[], formation: string, budget:
     '3-4-3': { GK: 1, DEF: 3, MID: 4, FWD: 3 },
   };
 
+  const safeBudget = sanitizeNumericInput(budget, 100, 10, 500);
+  const safePlayers = (Array.isArray(players) ? players : []).map((p) => ({
+    ...p,
+    cost: sanitizeNumericInput(p.cost, 4.0, 3.5, 20.0),
+    projectedPoints: sanitizeNumericInput(p.projectedPoints, 0, 0, 50),
+  }));
+
   const quota = formationQuotas[formation] || formationQuotas['4-3-3'];
 
   // Categorize available players by position
   const byPosition: Record<'GK' | 'DEF' | 'MID' | 'FWD', BestXIPlayer[]> = {
-    GK: players.filter((p) => p.position === 'GK').sort((a, b) => b.projectedPoints - a.projectedPoints),
-    DEF: players.filter((p) => p.position === 'DEF').sort((a, b) => b.projectedPoints - a.projectedPoints),
-    MID: players.filter((p) => p.position === 'MID').sort((a, b) => b.projectedPoints - a.projectedPoints),
-    FWD: players.filter((p) => p.position === 'FWD').sort((a, b) => b.projectedPoints - a.projectedPoints),
+    GK: safePlayers.filter((p) => p.position === 'GK').sort((a, b) => b.projectedPoints - a.projectedPoints),
+    DEF: safePlayers.filter((p) => p.position === 'DEF').sort((a, b) => b.projectedPoints - a.projectedPoints),
+    MID: safePlayers.filter((p) => p.position === 'MID').sort((a, b) => b.projectedPoints - a.projectedPoints),
+    FWD: safePlayers.filter((p) => p.position === 'FWD').sort((a, b) => b.projectedPoints - a.projectedPoints),
   };
 
   // Initial selection: take the highest-scoring players for each position
@@ -636,7 +737,7 @@ export function selectBestXI(players: BestXIPlayer[], formation: string, budget:
 
   // If over budget, iteratively perform optimal downgrades to fit within budget
   let maxIterations = 50;
-  while (totalCost > budget && maxIterations > 0) {
+  while (totalCost > safeBudget && maxIterations > 0) {
     maxIterations--;
     let bestSwap: { selectedIdx: number; replacement: BestXIPlayer; ratio: number } | null = null;
 
@@ -661,7 +762,6 @@ export function selectBestXI(players: BestXIPlayer[], formation: string, budget:
       selectedXI[bestSwap.selectedIdx] = bestSwap.replacement;
       totalCost = selectedXI.reduce((sum, p) => sum + (Number(p.cost) || 0), 0);
     } else {
-      // No more cheaper replacements available
       break;
     }
   }
@@ -670,7 +770,7 @@ export function selectBestXI(players: BestXIPlayer[], formation: string, budget:
   let upgradeIterations = 20;
   while (upgradeIterations > 0) {
     upgradeIterations--;
-    const currentRemaining = budget - totalCost;
+    const currentRemaining = safeBudget - totalCost;
     if (currentRemaining <= 0.1) break;
 
     let bestUpgrade: { selectedIdx: number; replacement: BestXIPlayer; pointGain: number } | null = null;
@@ -702,7 +802,7 @@ export function selectBestXI(players: BestXIPlayer[], formation: string, budget:
 
   const finalTotalCost = Number(selectedXI.reduce((sum, p) => sum + p.cost, 0).toFixed(1));
   const totalProjectedPoints = Number(selectedXI.reduce((sum, p) => sum + p.projectedPoints, 0).toFixed(1));
-  const remainingBudget = Number(Math.max(0, budget - finalTotalCost).toFixed(1));
+  const remainingBudget = Number(Math.max(0, safeBudget - finalTotalCost).toFixed(1));
 
   // Determine feasibility
   const hasEnoughPlayers =
@@ -710,14 +810,14 @@ export function selectBestXI(players: BestXIPlayer[], formation: string, budget:
     byPosition.DEF.length >= quota.DEF &&
     byPosition.MID.length >= quota.MID &&
     byPosition.FWD.length >= quota.FWD;
-  const isBudgetFeasible = finalTotalCost <= budget;
+  const isBudgetFeasible = finalTotalCost <= safeBudget;
   const isFeasible = hasEnoughPlayers && selectedXI.length === 11 && isBudgetFeasible;
 
   let infeasibleReason = '';
   if (!hasEnoughPlayers || selectedXI.length < 11) {
     infeasibleReason = `Insufficient players in pool for formation ${formation}. Required: ${quota.GK} GK, ${quota.DEF} DEF, ${quota.MID} MID, ${quota.FWD} FWD.`;
   } else if (!isBudgetFeasible) {
-    infeasibleReason = `Unable to select an 11-player squad within the £${budget}M budget (minimum feasible cost: £${finalTotalCost}M).`;
+    infeasibleReason = `Unable to select an 11-player squad within the £${safeBudget}M budget (minimum feasible cost: £${finalTotalCost}M).`;
   }
 
   // Captain recommendation: highest projected points in starting XI
@@ -748,13 +848,19 @@ export interface CaptainCandidate {
 }
 
 export function analyzeCaptains(candidates: CaptainCandidate[]) {
-  return candidates
+  return (Array.isArray(candidates) ? candidates : [])
     .map((c) => {
-      const homeBonus = c.isHome ? 1.1 : 1.0;
-      const fixtureScore = (6 - c.fixtureDifficulty) * 20; // 20-100
-      const formScore = c.form * 10; // 10-100
-      const historyScore = Math.min(100, c.historicAgainstOpponent * 15);
-      const teamAttackScore = Math.min(100, c.teamAttackingStrength * 35);
+      const form = sanitizeNumericInput(c.form, 5.0, 1.0, 10.0);
+      const fixtureDifficulty = sanitizeNumericInput(c.fixtureDifficulty, 3, 1, 5);
+      const historicAgainstOpponent = sanitizeNumericInput(c.historicAgainstOpponent, 0, 0, 10);
+      const teamAttackingStrength = sanitizeNumericInput(c.teamAttackingStrength, 3, 1, 5);
+      const isHome = Boolean(c.isHome);
+
+      const homeBonus = isHome ? 1.1 : 1.0;
+      const fixtureScore = (6 - fixtureDifficulty) * 20; // 20-100
+      const formScore = form * 10; // 10-100
+      const historyScore = Math.min(100, historicAgainstOpponent * 15);
+      const teamAttackScore = Math.min(100, teamAttackingStrength * 35);
 
       const rawScore =
         (formScore * 0.3) +
@@ -766,8 +872,8 @@ export function analyzeCaptains(candidates: CaptainCandidate[]) {
       const score = Math.round(clamp(rawScore, 10, 99));
 
       let riskLevel = 'Low Risk (Safe Pick)';
-      if (c.fixtureDifficulty >= 4 && !c.isHome) riskLevel = 'High Risk (Tough Matchup)';
-      else if (c.form < 6) riskLevel = 'Moderate Risk (Volatile Form)';
+      if (fixtureDifficulty >= 4 && !isHome) riskLevel = 'High Risk (Tough Matchup)';
+      else if (form < 6) riskLevel = 'Moderate Risk (Volatile Form)';
 
       return {
         ...c,
@@ -788,12 +894,22 @@ export interface TransferPlayer {
 }
 
 export function evaluateTransfer(playerOut: TransferPlayer, playerIn: TransferPlayer, bankBudget: number) {
-  const costDiff = playerIn.cost - playerOut.cost;
-  const affordable = bankBudget >= costDiff;
+  const safeBank = sanitizeNumericInput(bankBudget, 0, 0, 100);
+  const outCost = sanitizeNumericInput(playerOut?.cost, 5.0, 3.5, 20.0);
+  const inCost = sanitizeNumericInput(playerIn?.cost, 5.0, 3.5, 20.0);
+  const outForm = sanitizeNumericInput(playerOut?.form, 5.0, 1.0, 10.0);
+  const inForm = sanitizeNumericInput(playerIn?.form, 5.0, 1.0, 10.0);
+  const outFdr = sanitizeNumericInput(playerOut?.next3Fdr, 3, 1, 5);
+  const inFdr = sanitizeNumericInput(playerIn?.next3Fdr, 3, 1, 5);
+  const outMins = sanitizeNumericInput(playerOut?.expectedMinutes, 90, 0, 90);
+  const inMins = sanitizeNumericInput(playerIn?.expectedMinutes, 90, 0, 90);
 
-  const formDiff = playerIn.form - playerOut.form;
-  const fdrAdvantage = playerOut.next3Fdr - playerIn.next3Fdr; // higher is better
-  const minutesAdvantage = (playerIn.expectedMinutes - playerOut.expectedMinutes) / 10;
+  const costDiff = inCost - outCost;
+  const affordable = safeBank >= costDiff;
+
+  const formDiff = inForm - outForm;
+  const fdrAdvantage = outFdr - inFdr; // higher is better
+  const minutesAdvantage = (inMins - outMins) / 10;
 
   const rawScore = (formDiff * 6) + (fdrAdvantage * 12) + (minutesAdvantage * 2) + 50;
   const viabilityScore = clamp(Math.round(rawScore), 10, 99);
@@ -811,7 +927,7 @@ export function evaluateTransfer(playerOut: TransferPlayer, playerIn: TransferPl
     verdict,
     viabilityScore,
     affordable,
-    budgetImpact: costDiff,
+    budgetImpact: Number(costDiff.toFixed(1)),
     projectedGain,
   };
 }
@@ -829,12 +945,22 @@ export interface SimLeagueTeam {
 }
 
 export function simulateLeagueTable(teams: SimLeagueTeam[]) {
-  return teams
+  return (Array.isArray(teams) ? teams : [])
     .map((t) => {
-      const pts = (t.won * 3) + t.drawn;
-      const gd = t.gf - t.ga;
+      const won = Math.max(0, sanitizeNumericInput(t.won, 0, 0, 100));
+      const drawn = Math.max(0, sanitizeNumericInput(t.drawn, 0, 0, 100));
+      const lost = Math.max(0, sanitizeNumericInput(t.lost, 0, 0, 100));
+      const gf = Math.max(0, sanitizeNumericInput(t.gf, 0, 0, 300));
+      const ga = Math.max(0, sanitizeNumericInput(t.ga, 0, 0, 300));
+      const pts = (won * 3) + drawn;
+      const gd = gf - ga;
       return {
         ...t,
+        won,
+        drawn,
+        lost,
+        gf,
+        ga,
         pts,
         gd,
       };
@@ -843,7 +969,7 @@ export function simulateLeagueTable(teams: SimLeagueTeam[]) {
       if (b.pts !== a.pts) return b.pts - a.pts;
       if (b.gd !== a.gd) return b.gd - a.gd;
       if (b.gf !== a.gf) return b.gf - a.gf;
-      return a.name.localeCompare(b.name);
+      return (a.name || '').localeCompare(b.name || '');
     });
 }
 
@@ -855,13 +981,17 @@ export interface PointsNeededParams {
 }
 
 export function calculatePointsNeeded(input: PointsNeededParams) {
-  const pointsDeficit = Math.max(0, input.targetPoints - input.currentPoints);
-  const maxPossiblePoints = input.currentPoints + (input.gamesRemaining * 3);
-  const pointsPerGameNeeded = input.gamesRemaining > 0 ? safeDivide(pointsDeficit, input.gamesRemaining) : 0;
+  const currentPoints = sanitizeNumericInput(input?.currentPoints, 0, 0, 150);
+  const targetPoints = sanitizeNumericInput(input?.targetPoints, 0, 0, 150);
+  const gamesRemaining = Math.max(0, Math.round(sanitizeNumericInput(input?.gamesRemaining, 0, 0, 50)));
+
+  const pointsDeficit = Math.max(0, targetPoints - currentPoints);
+  const maxPossiblePoints = currentPoints + (gamesRemaining * 3);
+  const pointsPerGameNeeded = gamesRemaining > 0 ? safeDivide(pointsDeficit, gamesRemaining) : 0;
 
   let feasibilityStatus = 'Achievable';
   if (pointsDeficit === 0) feasibilityStatus = 'Achieved';
-  else if (maxPossiblePoints < input.targetPoints) feasibilityStatus = 'Mathematically Impossible';
+  else if (maxPossiblePoints < targetPoints) feasibilityStatus = 'Mathematically Impossible';
   else if (pointsPerGameNeeded > 2.5) feasibilityStatus = 'Miracle Required (>2.5 PPG)';
   else if (pointsPerGameNeeded > 2.0) feasibilityStatus = 'Difficult (2.0–2.5 PPG)';
   else if (pointsPerGameNeeded <= 1.2) feasibilityStatus = 'Very Likely (<1.2 PPG)';
@@ -869,13 +999,13 @@ export function calculatePointsNeeded(input: PointsNeededParams) {
 
   // Calculate viable W-D-L combinations
   const viableCombinations: { wins: number; draws: number; losses: number; totalPoints: number }[] = [];
-  if (maxPossiblePoints >= input.targetPoints && pointsDeficit > 0) {
-    for (let w = 0; w <= input.gamesRemaining; w++) {
-      for (let d = 0; d <= input.gamesRemaining - w; d++) {
-        const l = input.gamesRemaining - w - d;
+  if (maxPossiblePoints >= targetPoints && pointsDeficit > 0) {
+    for (let w = 0; w <= gamesRemaining; w++) {
+      for (let d = 0; d <= gamesRemaining - w; d++) {
+        const l = gamesRemaining - w - d;
         const pts = (w * 3) + d;
         if (pts >= pointsDeficit) {
-          viableCombinations.push({ wins: w, draws: d, losses: l, totalPoints: input.currentPoints + pts });
+          viableCombinations.push({ wins: w, draws: d, losses: l, totalPoints: currentPoints + pts });
         }
       }
     }
@@ -903,18 +1033,25 @@ export interface HeadToHeadData {
 }
 
 export function calculateHeadToHead(input: HeadToHeadData) {
-  const teamAWinRate = safeDivide(input.teamAWins, input.totalMatches) * 100;
-  const drawRate = safeDivide(input.draws, input.totalMatches) * 100;
-  const teamBWinRate = safeDivide(input.teamBWins, input.totalMatches) * 100;
+  const totalMatches = Math.max(0, Math.round(sanitizeNumericInput(input?.totalMatches, 0, 0, 1000)));
+  const teamAWins = Math.max(0, Math.round(sanitizeNumericInput(input?.teamAWins, 0, 0, totalMatches || 1000)));
+  const draws = Math.max(0, Math.round(sanitizeNumericInput(input?.draws, 0, 0, totalMatches || 1000)));
+  const teamBWins = Math.max(0, Math.round(sanitizeNumericInput(input?.teamBWins, 0, 0, totalMatches || 1000)));
+  const teamAGoals = Math.max(0, Math.round(sanitizeNumericInput(input?.teamAGoals, 0, 0, 10000)));
+  const teamBGoals = Math.max(0, Math.round(sanitizeNumericInput(input?.teamBGoals, 0, 0, 10000)));
 
-  const totalGoals = input.teamAGoals + input.teamBGoals;
-  const avgGoalsPerMatch = safeDivide(totalGoals, input.totalMatches);
+  const teamAWinRate = safeDivide(teamAWins, totalMatches) * 100;
+  const drawRate = safeDivide(draws, totalMatches) * 100;
+  const teamBWinRate = safeDivide(teamBWins, totalMatches) * 100;
+
+  const totalGoals = teamAGoals + teamBGoals;
+  const avgGoalsPerMatch = safeDivide(totalGoals, totalMatches);
 
   let verdict = 'Evenly Matched Historical Rivalry';
-  if (input.teamAWins > input.teamBWins + 3) {
-    verdict = `${input.teamAName || 'Team A'} Holds Historic Dominance`;
-  } else if (input.teamBWins > input.teamAWins + 3) {
-    verdict = `${input.teamBName || 'Team B'} Holds Historic Dominance`;
+  if (teamAWins > teamBWins + 3) {
+    verdict = `${input?.teamAName || 'Team A'} Holds Historic Dominance`;
+  } else if (teamBWins > teamAWins + 3) {
+    verdict = `${input?.teamBName || 'Team B'} Holds Historic Dominance`;
   }
 
   return {
@@ -937,12 +1074,18 @@ export interface SeasonGoalsParams {
 }
 
 export function calculateSeasonGoals(input: SeasonGoalsParams) {
-  const goalsPerGame = safeDivide(input.goals, input.gamesPlayed);
-  const minutesPerGoal = safeDivide(input.minutesPlayed, input.goals);
-  const projectedTotal = Math.round(goalsPerGame * input.totalSeasonGames);
+  const goals = sanitizeNumericInput(input?.goals, 0, 0, 150);
+  const gamesPlayed = Math.max(0, Math.round(sanitizeNumericInput(input?.gamesPlayed, 0, 0, 100)));
+  const totalSeasonGames = Math.max(1, Math.round(sanitizeNumericInput(input?.totalSeasonGames, 38, 1, 100)));
+  const minutesPlayed = sanitizeNumericInput(input?.minutesPlayed, 0, 0, 10000);
+  const penaltiesScored = clamp(sanitizeNumericInput(input?.penaltiesScored, 0, 0, 50), 0, goals);
 
-  const nonPenaltyGoals = Math.max(0, input.goals - input.penaltiesScored);
-  const nonPenaltyGPG = safeDivide(nonPenaltyGoals, input.gamesPlayed);
+  const goalsPerGame = safeDivide(goals, gamesPlayed);
+  const minutesPerGoal = safeDivide(minutesPlayed, goals);
+  const projectedTotal = Math.round(goalsPerGame * totalSeasonGames);
+
+  const nonPenaltyGoals = Math.max(0, goals - penaltiesScored);
+  const nonPenaltyGPG = safeDivide(nonPenaltyGoals, gamesPlayed);
 
   let paceTier = 'Standard Striker Pace';
   if (projectedTotal >= 30) paceTier = 'Historic / Ballon d’Or Contender';
@@ -1006,7 +1149,7 @@ export function analyzeFormation(formation: string, style: TacticalStyle) {
   const counterVulnerability = clamp(base.counter + counterMod, 10, 99);
 
   const strengths = [
-    `Natural passing triangles suited for ${style.toLowerCase()} build-up`,
+    `Natural passing triangles suited for ${(style || 'possession').toLowerCase()} build-up`,
     `Numerical superiority in high-value central spaces`,
     `Strong width generation along the attacking flanks`,
   ];
@@ -1053,9 +1196,16 @@ export interface PressingIntensityParams {
 }
 
 export function calculatePressingIntensity(input: PressingIntensityParams) {
-  const defensiveActions = input.tacklesInZone + input.interceptionsInZone + input.challengesInZone;
-  const ppda = safeDivide(input.opponentPassesInDefensiveZone, defensiveActions);
-  const turnoverShotConversion = safeDivide(input.turnoverShotsGenerated, input.highTurnoversWon) * 100;
+  const opponentPassesInDefensiveZone = sanitizeNumericInput(input?.opponentPassesInDefensiveZone, 0, 0, 2000);
+  const tacklesInZone = sanitizeNumericInput(input?.tacklesInZone, 0, 0, 500);
+  const interceptionsInZone = sanitizeNumericInput(input?.interceptionsInZone, 0, 0, 500);
+  const challengesInZone = sanitizeNumericInput(input?.challengesInZone, 0, 0, 500);
+  const highTurnoversWon = sanitizeNumericInput(input?.highTurnoversWon, 0, 0, 200);
+  const turnoverShotsGenerated = clamp(sanitizeNumericInput(input?.turnoverShotsGenerated, 0, 0, 200), 0, highTurnoversWon);
+
+  const defensiveActions = tacklesInZone + interceptionsInZone + challengesInZone;
+  const ppda = safeDivide(opponentPassesInDefensiveZone, defensiveActions);
+  const turnoverShotConversion = safeDivide(turnoverShotsGenerated, highTurnoversWon) * 100;
 
   let pressingTier = 'Moderate Mid-Block';
   if (ppda < 8.0 && ppda > 0) pressingTier = 'Relentless Gegenpress (<8.0 PPDA)';
@@ -1086,13 +1236,24 @@ export interface SetPieceParams {
 }
 
 export function calculateSetPieceSuccess(input: SetPieceParams) {
-  const cornerGoalRate = safeDivide(input.cornerGoals, input.cornersTaken) * 100;
-  const cornerShotGeneration = safeDivide(input.cornerShotsGenerated, input.cornersTaken) * 100;
-  const cornerShotConversion = safeDivide(input.cornerGoals, input.cornerShotsGenerated) * 100;
-  const directFkAccuracy = safeDivide(input.directFkShotsOnTarget, input.directFkTaken) * 100;
-  const directFkConversion = safeDivide(input.directFkGoals, input.directFkTaken) * 100;
-  const indirectFkConversion = safeDivide(input.indirectFkGoals, input.indirectFkTaken) * 100;
-  const penaltyConversion = safeDivide(input.penaltiesScored, input.penaltiesTaken) * 100;
+  const cornersTaken = sanitizeNumericInput(input?.cornersTaken, 0, 0, 500);
+  const cornerShotsGenerated = clamp(sanitizeNumericInput(input?.cornerShotsGenerated, 0, 0, 500), 0, cornersTaken);
+  const cornerGoals = clamp(sanitizeNumericInput(input?.cornerGoals, 0, 0, 100), 0, cornerShotsGenerated);
+  const directFkTaken = sanitizeNumericInput(input?.directFkTaken, 0, 0, 200);
+  const directFkShotsOnTarget = clamp(sanitizeNumericInput(input?.directFkShotsOnTarget, 0, 0, 200), 0, directFkTaken);
+  const directFkGoals = clamp(sanitizeNumericInput(input?.directFkGoals, 0, 0, 100), 0, directFkShotsOnTarget);
+  const indirectFkTaken = sanitizeNumericInput(input?.indirectFkTaken, 0, 0, 200);
+  const indirectFkGoals = clamp(sanitizeNumericInput(input?.indirectFkGoals, 0, 0, 100), 0, indirectFkTaken);
+  const penaltiesTaken = sanitizeNumericInput(input?.penaltiesTaken, 0, 0, 50);
+  const penaltiesScored = clamp(sanitizeNumericInput(input?.penaltiesScored, 0, 0, 50), 0, penaltiesTaken);
+
+  const cornerGoalRate = safeDivide(cornerGoals, cornersTaken) * 100;
+  const cornerShotGeneration = safeDivide(cornerShotsGenerated, cornersTaken) * 100;
+  const cornerShotConversion = safeDivide(cornerGoals, cornerShotsGenerated) * 100;
+  const directFkAccuracy = safeDivide(directFkShotsOnTarget, directFkTaken) * 100;
+  const directFkConversion = safeDivide(directFkGoals, directFkTaken) * 100;
+  const indirectFkConversion = safeDivide(indirectFkGoals, indirectFkTaken) * 100;
+  const penaltyConversion = safeDivide(penaltiesScored, penaltiesTaken) * 100;
 
   const rawScore =
     (cornerGoalRate * 5) +

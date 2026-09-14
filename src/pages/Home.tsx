@@ -8,6 +8,7 @@ import { BLOG_POSTS } from '../data/blogData';
 import { GUIDES_DATA } from '../data/guidesData';
 import { ToolCategory, FAQItem } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
+import { siteConfig } from '../config/site';
 import {
   Trophy,
   ArrowRight,
@@ -66,7 +67,7 @@ export const HomePage: React.FC = () => {
       {
         '@type': 'WebSite',
         name: 'StatKick',
-        url: 'https://statkick.com/',
+        url: `${siteConfig.url}/`,
         description: 'Football Stats Tools for Serious Fans',
       },
       {

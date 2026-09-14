@@ -520,5 +520,213 @@ describe('StatKick Calculations QA Test Suite (All 21 Tools)', () => {
       });
       expect(passAcc.passAccuracy).toBe(90);
     });
+
+    it('rigorously handles zero, negative, and edge-case inputs across all calculators without NaN or Infinity', () => {
+      // 1. Player Performance with zero and negative numbers
+      const perfZero = calculatePlayerPerformance({
+        position: 'FWD',
+        goals: -5 as any,
+        assists: NaN as any,
+        passAccuracy: 0,
+        shotsOnTargetPercent: 0,
+        dribbles: 0,
+        tackles: 0,
+      });
+      expect(Number.isFinite(perfZero.score)).toBe(true);
+      expect(Number.isFinite(perfZero.breakdown.rawScore)).toBe(true);
+      expect(perfZero.score).toBeGreaterThanOrEqual(10);
+      expect(perfZero.score).toBeLessThanOrEqual(99);
+
+      // 2. Team Comparison with missing/NaN values
+      const compRes = compareTeams(
+        { name: '', goalsPerGame: NaN as any, possession: -10 as any, shotsPerGame: 0, shotsOnTargetPerGame: 0, passAccuracy: 0, tacklesPerGame: 0, cornersPerGame: 0 },
+        { name: '', goalsPerGame: 0, possession: 0, shotsPerGame: 0, shotsOnTargetPerGame: 0, passAccuracy: 0, tacklesPerGame: 0, cornersPerGame: 0 }
+      );
+      expect(Number.isFinite(compRes.teamADominance)).toBe(true);
+      expect(Number.isFinite(compRes.teamBDominance)).toBe(true);
+      expect(compRes.overallWinner).toBeDefined();
+
+      // 3. Pass Accuracy with 0 total passes and completed > attempted
+      const passZero = calculatePassAccuracy({
+        totalPasses: 0,
+        completedPasses: 10,
+        keyPasses: 0,
+        longBallsAttempted: 0,
+        longBallsCompleted: 5,
+      });
+      expect(passZero.passAccuracy).toBe(0);
+      expect(passZero.longBallAccuracy).toBe(0);
+      expect(Number.isFinite(passZero.qualityScore)).toBe(true);
+      expect(passZero.qualityScore).toBeGreaterThanOrEqual(0);
+      expect(passZero.qualityScore).toBeLessThanOrEqual(100);
+
+      // 4. Shot Conversion with 0 shots and goals > shots
+      const shotZero = calculateShotConversion({
+        totalShots: 0,
+        goals: 5,
+        shotsOnTarget: 0,
+        bigChances: 0,
+        bigChancesMissed: 0,
+      });
+      expect(shotZero.conversionRate).toBe(0);
+      expect(shotZero.onTargetConversion).toBe(0);
+      expect(shotZero.bigChanceConversion).toBe(0);
+      expect(Number.isFinite(shotZero.conversionRate)).toBe(true);
+
+      // 5. Possession Impact with 0 matches and 0 possession
+      const possZero = calculatePossessionImpact({
+        possessionPercent: 0,
+        matches: 0,
+        wins: 0,
+        draws: 0,
+        losses: 0,
+        goalsScored: 0,
+        goalsConceded: 0,
+      });
+      expect(Number.isFinite(possZero.winRate)).toBe(true);
+      expect(Number.isFinite(possZero.goalsPerGame)).toBe(true);
+      expect(Number.isFinite(possZero.efficiencyIndex)).toBe(true);
+
+      // 6. Player Form with negative cards, 0 minutes
+      const formZero = calculatePlayerForm({
+        goalsLast5: 0,
+        assistsLast5: 0,
+        avgRatingLast5: 0,
+        minutesLast5: 0,
+        yellowCards: -2 as any,
+        redCards: -1 as any,
+      });
+      expect(Number.isFinite(formZero.formScore)).toBe(true);
+      expect(formZero.formScore).toBeGreaterThanOrEqual(1.0);
+      expect(formZero.formScore).toBeLessThanOrEqual(10.0);
+
+      // 7. Transfer Value with boundary age and negative G/A
+      const transferZero = calculateTransferValue({
+        age: 12 as any,
+        position: 'FWD',
+        goalsSeason: -5 as any,
+        assistsSeason: -2 as any,
+        leagueLevel: 'Tier1',
+        contractYears: 0,
+        internationalCaps: 0,
+      });
+      expect(Number.isFinite(transferZero.estimatedValue)).toBe(true);
+      expect(transferZero.estimatedValue).toBeGreaterThan(0);
+
+      // 8. Wage Structure & Wage with 0 transfer value and zero bonuses
+      const wageZero = calculateWage({
+        transferValueM: 0,
+        leagueLevel: 'Tier3',
+        squadStatus: 'Youth',
+        age: 18,
+      });
+      expect(Number.isFinite(wageZero.weeklyWage)).toBe(true);
+      expect(wageZero.weeklyWage).toBeGreaterThanOrEqual(1000);
+
+      const wageStructZero = calculateWageStructure({
+        currency: '€',
+        baseWeeklyWage: 0,
+        goalBonus: 0,
+        cleanSheetBonus: 0,
+        appearanceFee: 0,
+        matchesPlayed: 0,
+        goalsScored: 0,
+        cleanSheetsKept: 0,
+      });
+      expect(wageStructZero.totalAnnualEarnings).toBe(0);
+      expect(wageStructZero.effectiveWeeklyWage).toBe(0);
+
+      // 9. Squad Value with empty array
+      const emptySquad = calculateSquadValue([]);
+      expect(emptySquad.totalValue).toBe(0);
+      expect(emptySquad.averageValue).toBe(0);
+      expect(emptySquad.averageAge).toBe(0);
+
+      // 10. Contract Worth with 0 matches and 0 contract years
+      const contractZero = calculateContractWorth({
+        transferFee: 0,
+        annualSalary: 0,
+        contractYears: 0,
+        agentFee: 0,
+        signingBonus: 0,
+        expectedMatchesPerSeason: 0,
+      });
+      expect(Number.isFinite(contractZero.annualCost)).toBe(true);
+      expect(Number.isFinite(contractZero.costPerMatch)).toBe(true);
+      expect(contractZero.costPerMatch).not.toBe(Infinity);
+
+      // 11. Points Needed with 0 games remaining and negative points deficit
+      const ptsZero = calculatePointsNeeded({
+        currentPoints: 85,
+        targetPoints: 80,
+        gamesRemaining: 0,
+      });
+      expect(ptsZero.pointsDeficit).toBe(0);
+      expect(ptsZero.pointsPerGameNeeded).toBe(0);
+      expect(ptsZero.feasibilityStatus).toBe('Achieved');
+
+      // 12. Head to Head with 0 matches
+      const h2hZero = calculateHeadToHead({
+        teamAName: 'Team A',
+        teamBName: 'Team B',
+        totalMatches: 0,
+        teamAWins: 0,
+        draws: 0,
+        teamBWins: 0,
+        teamAGoals: 0,
+        teamBGoals: 0,
+      });
+      expect(h2hZero.teamAWinRate).toBe(0);
+      expect(h2hZero.drawRate).toBe(0);
+      expect(h2hZero.teamBWinRate).toBe(0);
+      expect(h2hZero.avgGoalsPerMatch).toBe(0);
+
+      // 13. Season Goals with 0 games played and 0 minutes
+      const seasonZero = calculateSeasonGoals({
+        goals: 0,
+        gamesPlayed: 0,
+        totalSeasonGames: 38,
+        minutesPlayed: 0,
+        penaltiesScored: 0,
+      });
+      expect(seasonZero.goalsPerGame).toBe(0);
+      expect(seasonZero.minutesPerGoal).toBe(0);
+      expect(seasonZero.projectedTotal).toBe(0);
+      expect(seasonZero.nonPenaltyGPG).toBe(0);
+
+      // 14. Pressing Intensity (PPDA) with 0 defensive actions and 0 turnovers
+      const ppdaZero = calculatePressingIntensity({
+        opponentPassesInDefensiveZone: 0,
+        tacklesInZone: 0,
+        interceptionsInZone: 0,
+        challengesInZone: 0,
+        highTurnoversWon: 0,
+        turnoverShotsGenerated: 0,
+      });
+      expect(ppdaZero.ppda).toBe(0);
+      expect(ppdaZero.defensiveActions).toBe(0);
+      expect(ppdaZero.turnoverShotConversion).toBe(0);
+      expect(Number.isFinite(ppdaZero.ppda)).toBe(true);
+
+      // 15. Set Piece Success with 0 attempts across all set pieces
+      const setPieceZero = calculateSetPieceSuccess({
+        cornersTaken: 0,
+        cornerShotsGenerated: 0,
+        cornerGoals: 0,
+        directFkTaken: 0,
+        directFkShotsOnTarget: 0,
+        directFkGoals: 0,
+        indirectFkTaken: 0,
+        indirectFkGoals: 0,
+        penaltiesTaken: 0,
+        penaltiesScored: 0,
+      });
+      expect(setPieceZero.cornerGoalRate).toBe(0);
+      expect(setPieceZero.cornerShotGeneration).toBe(0);
+      expect(setPieceZero.directFkAccuracy).toBe(0);
+      expect(setPieceZero.penaltyConversion).toBe(0);
+      expect(Number.isFinite(setPieceZero.overallEfficiencyScore)).toBe(true);
+      expect(setPieceZero.overallEfficiencyScore).toBeGreaterThanOrEqual(10);
+    });
   });
 });

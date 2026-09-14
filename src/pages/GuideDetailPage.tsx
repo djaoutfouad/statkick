@@ -4,6 +4,7 @@ import { GUIDES_DATA } from '../data/guidesData';
 import { TOOLS_LIST } from '../data/toolsList';
 import { useLanguage } from '../hooks/useLanguage';
 import { SEOHead } from '../components/common/SEOHead';
+import { siteConfig } from '../config/site';
 import {
   Compass,
   Clock,
@@ -40,11 +41,11 @@ export const GuideDetailPage: React.FC = () => {
     publisher: {
       '@type': 'Organization',
       name: 'StatKick',
-      url: 'https://statkick.com',
+      url: siteConfig.url,
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://statkick.com/guides/${guide.slug}`,
+      '@id': `${siteConfig.url}/guides/${guide.slug}`,
     },
   };
 
