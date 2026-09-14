@@ -727,6 +727,58 @@ describe('StatKick Calculations QA Test Suite (All 21 Tools)', () => {
       expect(setPieceZero.penaltyConversion).toBe(0);
       expect(Number.isFinite(setPieceZero.overallEfficiencyScore)).toBe(true);
       expect(setPieceZero.overallEfficiencyScore).toBeGreaterThanOrEqual(10);
+
+      // 16. Fantasy Football Points with all zeros
+      const fplZero = calculateFantasyPoints({
+        position: 'MID',
+        minutesPlayed: 0,
+        goalsScored: 0,
+        assists: 0,
+        cleanSheet: false,
+        goalsConceded: 0,
+        yellowCards: 0,
+        redCards: 0,
+        ownGoals: 0,
+        penaltySaves: 0,
+        penaltyMisses: 0,
+        saves: 0,
+        bonusPoints: 0,
+      });
+      expect(fplZero.totalPoints).toBe(0);
+      expect(Array.isArray(fplZero.breakdown)).toBe(true);
+
+      // 17. Best XI Selector with empty player array
+      const bestXIEmpty = selectBestXI([], '4-3-3', 100);
+      expect(bestXIEmpty.isFeasible).toBe(false);
+      expect(bestXIEmpty.selectedXI.length).toBe(0);
+      expect(bestXIEmpty.infeasibleReason).toContain('Insufficient players');
+
+      // 18. Captain Pick Analyzer with empty candidate array
+      const captainEmpty = analyzeCaptains([]);
+      expect(Array.isArray(captainEmpty)).toBe(true);
+      expect(captainEmpty.length).toBe(0);
+
+      // 19. Transfer Suggestion with zero bank budget and negative delta
+      const transferEvalZero = evaluateTransfer(
+        { name: 'Player A', cost: 10, form: 5, next3Fdr: 3, expectedMinutes: 90 },
+        { name: 'Player B', cost: 15, form: 4, next3Fdr: 4, expectedMinutes: 90 },
+        0
+      );
+      expect(transferEvalZero.affordable).toBe(false);
+      expect(transferEvalZero.verdict).toBe('Unaffordable');
+      expect(Number.isFinite(transferEvalZero.viabilityScore)).toBe(true);
+
+      // 20. League Table Simulator with empty list
+      const simEmpty = simulateLeagueTable([]);
+      expect(Array.isArray(simEmpty)).toBe(true);
+      expect(simEmpty.length).toBe(0);
+
+      // 21. Formation Analyzer with edge formations and styles
+      const formationZero = analyzeFormation('' as any, '' as any);
+      expect(formationZero.attackRating).toBeGreaterThanOrEqual(10);
+      expect(formationZero.defenseRating).toBeGreaterThanOrEqual(10);
+      expect(Array.isArray(formationZero.strengths)).toBe(true);
+      expect(Array.isArray(formationZero.weaknesses)).toBe(true);
     });
   });
 });

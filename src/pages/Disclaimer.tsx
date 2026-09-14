@@ -43,21 +43,21 @@ export const Disclaimer: React.FC = () => {
         <section className="space-y-2">
           <h2 className="text-base font-bold text-gray-900">1. Educational & Research Purpose</h2>
           <p>
-            StatKick provides interactive calculators, statistical tools, tactical guides, and analytical articles for educational, analytical, and entertainment purposes only. The mathematical formulas and index scores generated represent quantitative models and estimations based on sports analytics principles.
+            StatKick provides interactive calculators, statistical tools, tactical guides, and analytical articles for educational, analytical, and entertainment purposes only. We distinguish between widely recognized industry-standard metrics (such as PPDA pressing rates, pass accuracy percentages, shot conversion ratios, and points-per-game trajectories) and StatKick proprietary heuristic estimations (such as Player Performance Index scores, Transfer Value estimates, Wage structuring models, and Tactical Matchup evaluations). All proprietary index scores represent quantitative mathematical approximations rather than definitive ratings.
           </p>
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-gray-900">2. No Gambling or Financial Advice</h2>
+          <h2 className="text-base font-bold text-gray-900">2. No Gambling, Financial, or Legal Advice</h2>
           <p>
-            StatKick does NOT provide sports betting advice, gambling recommendations, or financial investment guidance. None of the statistical projections, match ratings, or simulated point tallies should be used as financial or betting counsel. Users engage with the tools at their own discretion.
+            StatKick does NOT provide sports betting advice, gambling recommendations, or financial investment guidance. In particular, our Transfer Value Estimator, Wage Calculator, Squad Value Calculator, and Contract Worth Analyzer are theoretical educational models and do NOT constitute professional accounting, financial, employment, or legal counsel. Users engage with all calculators at their own discretion.
           </p>
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-gray-900">3. Independent Operation & Trademarks</h2>
+          <h2 className="text-base font-bold text-gray-900">3. Independent Operation & Non-Affiliation Statement</h2>
           <p>
-            StatKick is an independent publication and software project. References to leagues, clubs, tournaments (e.g., Premier League, UEFA, FIFA, La Liga, Serie A), or fantasy platforms are made solely for descriptive, informational, and educational purposes. All registered trademarks and club names belong to their respective copyright holders.
+            StatKick is an independent digital publication and sports analytics software project created by open football data contributors. StatKick is NOT affiliated with, sponsored by, authorized by, or officially endorsed by UEFA, FIFA, the Premier League, La Liga, Serie A, or any professional football club. Furthermore, our Fantasy Football Points Calculator, Best XI Selector, and Captain Pick Analyzer are independent analytical utilities and have no affiliation with Fantasy Premier League (FPL) or its parent organizations. All registered trademarks, club names, and tournament brands belong exclusively to their respective copyright and trademark holders.
           </p>
         </section>
 

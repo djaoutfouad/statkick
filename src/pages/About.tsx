@@ -79,7 +79,13 @@ export const AboutPage: React.FC = () => {
               <strong>What StatKick Is:</strong> A comprehensive computational workbench for football supporters, fantasy managers, writers, scouts, and grass-roots coaches to calculate, simulate, and benchmark tactical and statistical metrics on demand.
             </p>
             <p>
-              <strong>What StatKick Is Not:</strong> We do not claim to provide live sports betting odds, real-time match streaming feeds, or official club proprietary scouting data. All values generated are analytical estimates based on mathematical frameworks and user-supplied data points.
+              <strong>What StatKick Is Not:</strong> We do not provide sports betting advice, real-time match streaming feeds, or official club proprietary scouting data. All values generated are analytical estimates based on mathematical frameworks and user-supplied data points.
+            </p>
+            <p>
+              <strong>Independent Authorship:</strong> StatKick is built and maintained by independent software engineers and football analytics enthusiasts. We do not hold or claim official licensing from UEFA, FIFA, or any domestic football association.
+            </p>
+            <p>
+              <strong>Financial & Fantasy Clarifications:</strong> Valuations produced by the Transfer Value Estimator, Wage Calculator, and Contract Worth Analyzer are heuristic educational models and do not constitute financial, investment, or legal counsel. Fantasy football scoring estimators are independent community utilities and are not affiliated with Fantasy Premier League (FPL).
             </p>
           </div>
         </div>
