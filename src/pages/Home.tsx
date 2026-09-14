@@ -71,6 +71,20 @@ export const HomePage: React.FC = () => {
         description: 'Football Stats Tools for Serious Fans',
       },
       {
+        '@type': 'WebApplication',
+        name: 'StatKick',
+        url: `${siteConfig.url}/`,
+        description:
+          '21 interactive football analytics calculators and statistical utilities for match analysis, player ratings, fantasy management, and tactics.',
+        applicationCategory: 'SportsApplication',
+        operatingSystem: 'All',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      },
+      {
         '@type': 'FAQPage',
         mainEntity: homeFaqs.map((f) => ({
           '@type': 'Question',
