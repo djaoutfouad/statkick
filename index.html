@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preview environment runtime compatibility: ensure window.fetch is writable to support iframe proxy layers -->
+    <script>
+      (function() {
+        try {
+          if (typeof Object !== 'undefined' && Object.prototype && Object.prototype.hasOwnProperty('fetch')) {
+            delete Object.prototype.fetch;
+          }
+          if (typeof EventTarget !== 'undefined' && EventTarget.prototype && EventTarget.prototype.hasOwnProperty('fetch')) {
+            delete EventTarget.prototype.fetch;
+          }
+        } catch (e) {}
+
+        try {
+          var _rawFetch = typeof window !== 'undefined' && window.fetch ? window.fetch.bind(window) : null;
+          var _currentFetch = _rawFetch;
+
+          Object.defineProperty(window, 'fetch', {
+            get: function() {
+              return _currentFetch || _rawFetch;
+            },
+            set: function(fn) {
+              _currentFetch = fn;
+            },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {}
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StatKick — Football Stats Tools for Serious Fans</title>
+    <meta name="description" content="StatKick delivers 21 interactive football analytics and statistical calculators for fans, analysts, fantasy managers, and coaches. Measure player ratings, team dominance, squad values, pressing indexes, and tactical simulations." />
+    <meta name="author" content="StatKick Analytics" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://statkick.com/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://statkick.com/" />
+    <meta property="og:title" content="StatKick — Football Stats Tools for Serious Fans" />
+    <meta property="og:description" content="21 interactive football analytics and statistical calculators for fans, analysts, fantasy managers, and coaches. Measure player ratings, team dominance, squad values, and tactics." />
+    <meta property="og:site_name" content="StatKick" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://statkick.com/" />
+    <meta name="twitter:title" content="StatKick — Football Stats Tools for Serious Fans" />
+    <meta name="twitter:description" content="21 interactive football analytics and statistical calculators for fans, analysts, fantasy managers, and coaches." />
+
+    <!-- Fonts & Preconnects -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "StatKick",
+        "url": "https://statkick.com/",
+        "description": "21 interactive football analytics calculators and statistical utilities for match analysis, player ratings, fantasy management, and tactics.",
+        "applicationCategory": "SportsApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-white text-gray-900 min-h-screen antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "StatKick",
+  "description": "Football Stats Tools for Serious Fans - 21 in-depth calculators and analytical tools for match analysis, player ratings, fantasy, and tactics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
