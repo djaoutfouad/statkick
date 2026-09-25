@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, ShieldCheck, Cpu, Sliders } from 'lucide-react';
+import { ShieldCheck, Cpu, Sliders } from 'lucide-react';
+import { StatKickLogo } from './StatKickLogo';
 import { siteConfig } from '../../config/site';
 import { useLanguage } from '../../hooks/useLanguage';
 import { openConsentPreferencesModal } from '../../utils/consentManager';
@@ -14,14 +15,9 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand & Purpose */}
           <div className="md:col-span-2 space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-green-600 flex items-center justify-center text-white">
-                <Trophy className="w-4 h-4" />
-              </div>
-              <span className="text-lg font-bold text-gray-900">
-                Stat<span className="text-green-600">Kick</span>
-              </span>
-            </div>
+            <Link to="/" className="inline-block hover:opacity-95 transition-opacity" aria-label="StatKick Homepage">
+              <StatKickLogo variant="full" size="sm" />
+            </Link>
             <p className="text-xs text-gray-600 max-w-md leading-relaxed">
               {t.footer.tagline}
             </p>

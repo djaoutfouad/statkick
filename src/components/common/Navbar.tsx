@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Trophy, Mail, Menu, X, BookOpen, Compass, Info, FileText, Grid } from 'lucide-react';
+import { Mail, Menu, X, BookOpen, Compass, Info, FileText, Grid } from 'lucide-react';
 import { ContactModal } from './ContactModal';
+import { StatKickLogo } from './StatKickLogo';
 import { useLanguage } from '../../hooks/useLanguage';
 
 export const Navbar: React.FC = () => {
@@ -33,20 +34,15 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-6 lg:gap-8">
             <Link
               to="/"
-              className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-green-500 rounded-lg p-1"
+              className="flex items-center group focus:outline-none focus:ring-2 focus:ring-green-500 rounded-lg p-1"
               aria-label="StatKick Homepage"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-green-700 to-green-500 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
-                <Trophy className="w-5 h-5" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-extrabold tracking-tight text-gray-900 flex items-center gap-1">
-                  Stat<span className="text-green-600">Kick</span>
-                </span>
-                <span className="text-[10px] font-medium text-gray-500 -mt-1 hidden sm:inline">
-                  {t.nav.subtitle}
-                </span>
-              </div>
+              <StatKickLogo
+                variant="full"
+                size="md"
+                subtitle={t.nav.subtitle}
+                className="group-hover:opacity-95 transition-opacity"
+              />
             </Link>
 
             {/* Desktop Navigation Links */}

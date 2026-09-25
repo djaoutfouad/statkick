@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" width="100%" height="100%">
+  <defs>
+    <!-- Dynamic 3D Green Swoosh Gradient -->
+    <linearGradient id="sk-swoosh-grad" x1="10%" y1="85%" x2="90%" y2="15%">
+      <stop offset="0%" stop-color="#15803d" />
+      <stop offset="30%" stop-color="#16a34a" />
+      <stop offset="70%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#4ade80" />
+    </linearGradient>
+
+    <!-- 3D Spherical Shading for Ball -->
+    <radialGradient id="sk-ball-shade" cx="38%" cy="34%" r="62%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="65%" stop-color="#f8fafc" />
+      <stop offset="85%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </radialGradient>
+
+    <!-- Dark Pentagon Facets Gradient -->
+    <linearGradient id="sk-patch-dark" x1="25%" y1="20%" x2="75%" y2="80%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+
+    <!-- Inner Spherical Ball Clip -->
+    <clipPath id="sk-ball-clip">
+      <circle cx="50" cy="48" r="28" />
+    </clipPath>
+
+    <!-- Drop Shadow for Swoosh -->
+    <filter id="sk-swoosh-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#15803d" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Ground Shadow -->
+  <ellipse cx="50" cy="85" rx="24" ry="5" fill="#0f172a" fill-opacity="0.12" />
+
+  <!-- Ball Base Sphere -->
+  <circle cx="50" cy="48" r="28" fill="url(#sk-ball-shade)" stroke="#cbd5e1" stroke-width="0.75" />
+
+  <!-- Clipped Football Panels & Seams -->
+  <g clip-path="url(#sk-ball-clip)">
+    <!-- Central Tilted Pentagon -->
+    <polygon points="50,36 59,43 55,54 44,54 40,43" fill="url(#sk-patch-dark)" />
+
+    <!-- Radiating Seam Stitch Lines -->
+    <path d="M50,36 L50,23 M59,43 L72,36 M55,54 L66,66 M44,54 L33,66 M40,43 L27,36" 
+          stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Surrounding Perimeter Patches -->
+    <!-- Top Patch -->
+    <polygon points="43,21 57,21 61,10 39,10" fill="url(#sk-patch-dark)" />
+    <!-- Top-Right Patch -->
+    <polygon points="72,36 79,47 89,43 84,28 73,25" fill="url(#sk-patch-dark)" />
+    <!-- Bottom-Right Patch -->
+    <polygon points="66,66 60,77 72,84 80,73 75,61" fill="url(#sk-patch-dark)" />
+    <!-- Bottom-Left Patch -->
+    <polygon points="33,66 39,77 27,84 19,73 24,61" fill="url(#sk-patch-dark)" />
+    <!-- Top-Left Patch -->
+    <polygon points="27,36 20,47 10,43 15,28 26,25" fill="url(#sk-patch-dark)" />
+
+    <!-- Interconnecting Hexagon Seams -->
+    <path d="M43,21 L26,25 M57,21 L73,25 M79,47 L75,61 M60,77 L39,77 M20,47 L24,61" 
+          stroke="#64748b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.5,1" />
+
+    <!-- Spherical Ambient Highlight -->
+    <ellipse cx="42" cy="35" rx="14" ry="9" transform="rotate(-25 42 35)" fill="#ffffff" fill-opacity="0.32" />
+  </g>
+
+  <!-- Dynamic 3D Green Swoosh ribbon wrapping around ball -->
+  <path d="M 22,46 C 17,60 22,76 36,83 C 50,91 68,89 79,79 C 87,71 89,59 87,47 C 86,43 82,39 79,42 C 77,44 78,49 78,54 C 77,65 69,75 59,79 C 47,83 34,79 29,69 C 25,61 26,51 30,43 C 31,40 27,39 25,41 Z"
+        fill="url(#sk-swoosh-grad)" filter="url(#sk-swoosh-shadow)" />
+
+  <!-- Swoosh Highlight Ridge (Gloss reflection) -->
+  <path d="M 24,48 C 20,60 24,74 37,81 C 49,88 66,87 77,77 C 84,69 86,59 85,49"
+        stroke="#86efac" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.85" />
+
+  <!-- Outer dynamic speed accent -->
+  <path d="M 78,39 C 86,47 89,59 87,71 C 86,77 81,83 75,87" 
+        stroke="url(#sk-swoosh-grad)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.45" />
+</svg>

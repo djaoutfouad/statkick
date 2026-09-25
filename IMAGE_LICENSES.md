@@ -51,3 +51,15 @@ According to the official **Unsplash License** ([unsplash.com/license](https://u
 - Photos may not be sold without significant modification or compiled to replicate a competing service.
 
 StatKick verifies that all assets used adhere strictly to these terms, contain zero copyright violations, and strictly represent genuine sports and football themes.
+
+---
+
+## 4. Brand Identity & Logo Vector Assets
+
+| Asset File | Purpose | Design Specification | Format / Dimensions |
+| :--- | :--- | :--- | :--- |
+| `public/logo.svg` | Primary Brand Logotype | Full brandmark with 3D soccer ball, dynamic emerald green swoosh trajectory, and bold "StatKick" typography. | Vector SVG (320x80 viewBox, scalable) |
+| `public/logo-icon.svg` | Standalone Emblem Mark | 3D soccer ball with truncated icosahedron facets and dynamic emerald green swoosh arc. | Vector SVG (100x100 viewBox, scalable) |
+| `public/favicon.svg` | Browser Favicon & Touch Icon | Scalable vector favicon representation of the StatKick brandmark. | Vector SVG (100x100 viewBox) |
+| `src/components/common/StatKickLogo.tsx` | Dynamic React Logo Component | High-performance inline SVG component supporting responsive sizes (`sm`, `md`, `lg`, `xl`) and variants (`full`, `icon`). | TypeScript JSX Component |
+

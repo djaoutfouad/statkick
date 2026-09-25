@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, Home, ArrowRight, Search } from 'lucide-react';
+import { Home, ArrowRight, Search } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { StatKickLogo } from '../components/common/StatKickLogo';
 import { Button } from '../components/ui/Button';
 import { TOOLS_LIST } from '../data/toolsList';
 
@@ -15,8 +16,8 @@ export const NotFoundPage: React.FC = () => {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center py-16 px-4 text-center">
       <SEOHead {...seoData} />
-      <div className="w-16 h-16 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center mb-6 shadow-sm">
-        <Trophy className="w-8 h-8" />
+      <div className="mb-6">
+        <StatKickLogo variant="icon" size="xl" className="filter drop-shadow-md hover:scale-105 transition-transform" />
       </div>
 
       <span className="px-3 py-1 text-xs font-bold uppercase tracking-widest text-green-700 bg-green-100 rounded-full mb-3">
