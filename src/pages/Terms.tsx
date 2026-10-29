@@ -5,9 +5,9 @@ import { FileText, CheckCircle2, AlertTriangle, Scale, ShieldAlert } from 'lucid
 
 export const TermsPage: React.FC = () => {
   const seoData = {
-    title: 'Terms of Use | StatKick',
-    description: 'Terms and conditions governing the use of StatKick football statistical calculators, tools, and analytical models.',
-    canonicalPath: '/terms',
+    title: 'Terms of Use & Football Calculator License | StatKick',
+    description: 'Review the official Terms of Use and licensing guidelines governing the StatKick platform, 21 football statistical calculators, and data guides.',
+    canonicalPath: '/terms/',
   };
 
   return (
@@ -23,7 +23,7 @@ export const TermsPage: React.FC = () => {
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
           Terms of Use
         </h1>
-        <p className="mt-2 text-xs sm:text-sm text-gray-500">
+        <p className="mt-2 text-xs sm:text-sm text-gray-600">
           Last Updated: February 2026 • StatKick Independent Football Analytics
         </p>
       </header>
@@ -32,7 +32,7 @@ export const TermsPage: React.FC = () => {
       <article className="prose max-w-none text-xs sm:text-sm text-gray-700 space-y-6 leading-relaxed">
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 space-y-4 shadow-2xs">
           <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            <Scale className="w-4 h-4 text-green-600" />
+            <Scale className="w-4 h-4 text-green-700" />
             1. Acceptance of Terms
           </h2>
           <p>
@@ -42,7 +42,7 @@ export const TermsPage: React.FC = () => {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 space-y-4 shadow-2xs">
           <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-green-600" />
+            <AlertTriangle className="w-4 h-4 text-green-700" />
             2. Nature of Analytical Calculators & Informational Disclaimer
           </h2>
           <p>
@@ -60,7 +60,7 @@ export const TermsPage: React.FC = () => {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 space-y-4 shadow-2xs">
           <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-green-600" />
+            <CheckCircle2 className="w-4 h-4 text-green-700" />
             3. Permitted Use & Intellectual Property
           </h2>
           <p>
@@ -73,7 +73,7 @@ export const TermsPage: React.FC = () => {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 space-y-4 shadow-2xs">
           <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4 text-green-600" />
+            <ShieldAlert className="w-4 h-4 text-green-700" />
             4. Limitation of Liability & Governing Law
           </h2>
           <p>

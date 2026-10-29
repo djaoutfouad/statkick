@@ -13,17 +13,18 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { label: t.nav.tools, path: '/', icon: Grid },
-    { label: t.nav.blog, path: '/blog', icon: BookOpen },
-    { label: t.nav.guides, path: '/guides', icon: Compass },
-    { label: t.nav.methodology, path: '/methodology', icon: FileText },
-    { label: t.nav.about, path: '/about', icon: Info },
+    { label: t.nav.blog, path: '/blog/', icon: BookOpen },
+    { label: t.nav.guides, path: '/guides/', icon: Compass },
+    { label: t.nav.methodology, path: '/methodology/', icon: FileText },
+    { label: t.nav.about, path: '/about/', icon: Info },
   ];
 
   const isActive = (path: string) => {
     if (path === '/') {
       return location.pathname === '/';
     }
-    return location.pathname.startsWith(path);
+    const base = path.replace(/\/$/, '');
+    return location.pathname.startsWith(base);
   };
 
   return (
@@ -72,7 +73,7 @@ export const Navbar: React.FC = () => {
               id="navbar-contact-button"
               type="button"
               onClick={() => setIsContactOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-green-600 hover:bg-green-700 active:bg-green-800 rounded-lg shadow-xs transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-green-700 hover:bg-green-800 active:bg-green-900 rounded-lg shadow-xs transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 cursor-pointer"
               aria-label="Open Contact Us modal"
             >
               <Mail className="w-3.5 h-3.5" />
@@ -109,7 +110,7 @@ export const Navbar: React.FC = () => {
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
-                  <Icon className="w-4 h-4 text-gray-500" />
+                  <Icon className="w-4 h-4 text-gray-600" />
                   <span>{link.label}</span>
                 </Link>
               );

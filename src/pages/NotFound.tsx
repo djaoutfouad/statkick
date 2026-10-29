@@ -8,8 +8,8 @@ import { TOOLS_LIST } from '../data/toolsList';
 
 export const NotFoundPage: React.FC = () => {
   const seoData = {
-    title: '404 Page Not Found | StatKick',
-    description: 'The requested football statistics page could not be located. Explore our 21 analytics calculators from the StatKick homepage.',
+    title: '404 Page Not Found — Football Analytics | StatKick',
+    description: 'The requested football statistics page could not be located. Return to the StatKick homepage to explore our 21 interactive analytics calculators.',
     noindex: true,
   };
 
@@ -38,7 +38,7 @@ export const NotFoundPage: React.FC = () => {
             Return to Homepage
           </Button>
         </Link>
-        <Link to="/#performance">
+        <Link to="/">
           <Button variant="secondary" icon={<ArrowRight className="w-4 h-4" />}>
             Browse All 21 Tools
           </Button>
@@ -47,7 +47,7 @@ export const NotFoundPage: React.FC = () => {
 
       {/* Popular Calculators Direct Navigation */}
       <div className="max-w-lg w-full text-left rounded-2xl border border-gray-200 bg-white p-5">
-        <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-1.5">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-gray-600 mb-3 flex items-center gap-1.5">
           <Search className="w-3.5 h-3.5" />
           Popular Calculators
         </h2>
@@ -55,11 +55,11 @@ export const NotFoundPage: React.FC = () => {
           {TOOLS_LIST.slice(0, 4).map((tool) => (
             <Link
               key={tool.slug}
-              to={`/tools/${tool.slug}`}
+              to={`/tools/${tool.slug}/`}
               className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 text-xs font-medium text-gray-800 transition-colors"
             >
               <span>{tool.name}</span>
-              <span className="text-[10px] text-green-600 font-semibold">
+              <span className="text-[10px] text-green-700 font-semibold">
                 {tool.category} →
               </span>
             </Link>

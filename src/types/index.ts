@@ -4,6 +4,7 @@ export interface ToolMeta {
   id: string;
   slug: string;
   name: string;
+  seoTitle?: string;
   tagline: string;
   category: ToolCategory;
   description: string;
@@ -54,7 +55,9 @@ export type BlogCategory =
 export interface BlogPost {
   slug: string;
   title: string;
+  seoTitle?: string;
   excerpt: string;
+  imageUrl?: string;
   category: BlogCategory;
   date: string;
   lastReviewed?: string;
@@ -85,6 +88,7 @@ export interface BlogPost {
 export interface GuideItem {
   slug: string;
   title: string;
+  seoTitle?: string;
   tagline: string;
   excerpt: string;
   category: string;

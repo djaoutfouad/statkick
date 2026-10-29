@@ -65,13 +65,34 @@ export const HomePage: React.FC = () => {
     '@context': 'https://schema.org',
     '@graph': [
       {
+        '@type': 'Organization',
+        '@id': `${siteConfig.url}/#organization`,
+        name: 'StatKick',
+        url: `${siteConfig.url}/`,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${siteConfig.url}/logo-header.png`,
+        },
+        description:
+          'Independent football analytics and statistical calculator platform for supporters, scouts, fantasy managers, and tactical researchers.',
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'Editorial & Technical Support',
+          email: 'contact.statkick@gmail.com',
+          url: `${siteConfig.url}/contact/`,
+        },
+      },
+      {
         '@type': 'WebSite',
         name: 'StatKick',
         url: `${siteConfig.url}/`,
         description: 'Football Stats Tools for Serious Fans',
+        publisher: {
+          '@id': `${siteConfig.url}/#organization`,
+        },
       },
       {
-        '@type': 'WebApplication',
+        '@type': ['SoftwareApplication', 'WebApplication'],
         name: 'StatKick',
         url: `${siteConfig.url}/`,
         description:
@@ -128,22 +149,22 @@ export const HomePage: React.FC = () => {
   return (
     <div className="w-full space-y-12">
       <SEOHead
-        title="StatKick — Football Stats Tools for Serious Fans"
-        description="Comprehensive suite of 21 interactive football analytics and statistical calculators for fans, analysts, fantasy managers, and coaches. Measure player ratings, team dominance, squad values, and tactics."
+        title="StatKick — Football Stats & Analytics Calculators"
+        description="Explore 21 interactive football stats calculators for fans, scouts, and fantasy managers. Analyze xG, player ratings, squad values, and match tactics."
         canonicalPath="/"
         structuredData={homeStructuredData}
       />
       {/* Hero Section with Cinematic Night Stadium Background */}
       <section className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-800/80 my-2">
-        {/* Stadium Background under Floodlights (Pure Athletic Pitch & Architecture) */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=2000&q=80')",
-          }}
-          role="img"
-          aria-label="Football stadium under floodlights at night"
+        {/* Stadium Background under Floodlights (Local WebP Image for Optimal Mobile LCP) */}
+        <img
+          src="/images/hero-stadium.webp"
+          alt="Football stadium under floodlights at night"
+          width={1200}
+          height={600}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
         {/* Dark Vignette Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-900/90 to-slate-950" />
@@ -201,7 +222,7 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
             <Link
-              to={`/guides/${featuredGuide.slug}`}
+              to={`/guides/${featuredGuide.slug}/`}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-500 hover:bg-green-400 active:bg-green-600 text-gray-950 font-bold text-xs transition-all shrink-0 shadow-md"
             >
               <span>{t.common.readGuide}</span>
@@ -218,7 +239,7 @@ export const HomePage: React.FC = () => {
             <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
               {t.home.toolkitHeading}
             </h2>
-            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">
               {t.home.toolkitSubheading}
             </p>
           </div>
@@ -265,14 +286,14 @@ export const HomePage: React.FC = () => {
           <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
             {t.home.howItWorksHeading}
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-600">
             {t.home.howItWorksSubheading}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
           <div className="space-y-2 p-4 rounded-xl bg-gray-50/80 border border-gray-100">
-            <div className="w-7 h-7 rounded-lg bg-green-600 text-white font-bold flex items-center justify-center text-xs">
+            <div className="w-7 h-7 rounded-lg bg-green-700 text-white font-bold flex items-center justify-center text-xs">
               1
             </div>
             <h3 className="text-sm font-bold text-gray-900">{t.home.step1Title}</h3>
@@ -280,7 +301,7 @@ export const HomePage: React.FC = () => {
           </div>
 
           <div className="space-y-2 p-4 rounded-xl bg-gray-50/80 border border-gray-100">
-            <div className="w-7 h-7 rounded-lg bg-green-600 text-white font-bold flex items-center justify-center text-xs">
+            <div className="w-7 h-7 rounded-lg bg-green-700 text-white font-bold flex items-center justify-center text-xs">
               2
             </div>
             <h3 className="text-sm font-bold text-gray-900">{t.home.step2Title}</h3>
@@ -288,7 +309,7 @@ export const HomePage: React.FC = () => {
           </div>
 
           <div className="space-y-2 p-4 rounded-xl bg-gray-50/80 border border-gray-100">
-            <div className="w-7 h-7 rounded-lg bg-green-600 text-white font-bold flex items-center justify-center text-xs">
+            <div className="w-7 h-7 rounded-lg bg-green-700 text-white font-bold flex items-center justify-center text-xs">
               3
             </div>
             <h3 className="text-sm font-bold text-gray-900">{t.home.step3Title}</h3>
@@ -304,13 +325,13 @@ export const HomePage: React.FC = () => {
             <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
               {t.home.latestBlogHeading}
             </h2>
-            <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
+            <p className="text-xs sm:text-sm text-gray-600 mt-0.5">
               {t.home.latestBlogSub}
             </p>
           </div>
           <Link
-            to="/blog"
-            className="inline-flex items-center gap-1 text-xs font-bold text-green-600 hover:text-green-700"
+            to="/blog/"
+            className="inline-flex items-center gap-1 text-xs font-bold text-green-700 hover:text-green-800"
           >
             <span>{t.common.viewAll}</span>
             <ChevronRight className="w-4 h-4" />
@@ -324,17 +345,28 @@ export const HomePage: React.FC = () => {
               className="bg-white border border-gray-200 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group"
             >
               <div className="space-y-3">
+                <Link to={`/blog/${post.slug}/`} className="block overflow-hidden rounded-xl">
+                  <img
+                    src={post.imageUrl || '/images/tool-performance-rater.webp'}
+                    alt={post.title}
+                    width={600}
+                    height={300}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-36 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                  />
+                </Link>
                 <div className="flex items-center justify-between text-xs">
                   <span className="px-2.5 py-0.5 rounded-md bg-green-50 text-green-700 font-semibold text-[11px]">
                     {post.category}
                   </span>
-                  <span className="text-gray-400 text-[11px] flex items-center gap-1">
+                  <span className="text-gray-600 text-[11px] flex items-center gap-1">
                     <Clock className="w-3 h-3" />
                     {post.readTime}
                   </span>
                 </div>
-                <h3 className="text-sm sm:text-base font-bold text-gray-900 group-hover:text-green-600 transition-colors line-clamp-2">
-                  <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+                <h3 className="text-sm sm:text-base font-bold text-gray-900 group-hover:text-green-700 transition-colors line-clamp-2">
+                  <Link to={`/blog/${post.slug}/`}>{post.title}</Link>
                 </h3>
                 <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed">
                   {post.excerpt}
@@ -342,10 +374,11 @@ export const HomePage: React.FC = () => {
               </div>
 
               <div className="pt-4 mt-3 border-t border-gray-100 flex items-center justify-between">
-                <span className="text-[11px] text-gray-400">{post.date}</span>
+                <span className="text-[11px] text-gray-600">{post.date}</span>
                 <Link
-                  to={`/blog/${post.slug}`}
-                  className="text-xs font-bold text-green-600 group-hover:text-green-700 inline-flex items-center gap-1"
+                  to={`/blog/${post.slug}/`}
+                  aria-label={`Read full article on ${post.title}`}
+                  className="text-xs font-bold text-green-700 group-hover:text-green-800 inline-flex items-center gap-1"
                 >
                   <span>{t.common.readArticle}</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -359,7 +392,7 @@ export const HomePage: React.FC = () => {
       {/* Why We Built StatKick Section */}
       <section className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 space-y-4 shadow-2xs">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold border border-green-200">
-          <Trophy className="w-3.5 h-3.5 text-green-600" />
+          <Trophy className="w-3.5 h-3.5 text-green-700" />
           <span>{t.home.whyBuiltBadge}</span>
         </div>
         <h2 className="text-2xl font-bold text-gray-900">
@@ -371,7 +404,7 @@ export const HomePage: React.FC = () => {
         </div>
         <div className="pt-2">
           <Link
-            to="/methodology"
+            to="/methodology/"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 hover:text-green-800"
           >
             <span>{t.home.methodologyCta}</span>
@@ -402,8 +435,8 @@ export const HomePage: React.FC = () => {
                 >
                   <span className="text-sm font-bold text-gray-900">{faq.question}</span>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-green-600' : ''
+                    className={`w-4 h-4 text-gray-600 shrink-0 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180 text-green-700' : ''
                     }`}
                   />
                 </button>

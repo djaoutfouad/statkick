@@ -229,7 +229,7 @@ export const CaptainPickAnalyzerPage: React.FC = () => {
               {results.map((res, idx) => (
                 <div key={res.id} className="p-3.5 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="font-bold text-gray-400 text-sm">#{idx + 1}</span>
+                    <span className="font-bold text-gray-600 text-sm">#{idx + 1}</span>
                     <div>
                       <div className="font-bold text-gray-900 flex items-center gap-2">
                         {res.name}
@@ -244,7 +244,7 @@ export const CaptainPickAnalyzerPage: React.FC = () => {
                     <span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-gray-100 text-gray-700">
                       {res.riskLevel}
                     </span>
-                    <span className="font-mono font-bold text-base text-green-600">
+                    <span className="font-mono font-bold text-base text-green-700">
                       {res.score}/100
                     </span>
                   </div>

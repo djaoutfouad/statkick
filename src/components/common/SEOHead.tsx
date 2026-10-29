@@ -12,8 +12,7 @@ export interface SEOHeadProps {
   type?: string;
 }
 
-const DEFAULT_OG_IMAGE =
-  'https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1200&h=630&q=80';
+const DEFAULT_OG_IMAGE = `${siteConfig.url}/images/hero-stadium.webp`;
 
 export const SEOHead: React.FC<SEOHeadProps> = ({
   title,
@@ -27,7 +26,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   const formattedTitle = title.includes(siteConfig.name) ? title : `${title} | ${siteConfig.name}`;
 
   // Robust path normalization:
-  // Root page always ends with '/', inner pages never end with '/'
+  // All URLs (root and inner pages) always end with a trailing slash '/'
   const cleanPath = (canonicalPath || '').trim();
   let normalizedPath = cleanPath;
   if (!normalizedPath || normalizedPath === '/') {
@@ -36,17 +35,18 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     if (!normalizedPath.startsWith('/')) {
       normalizedPath = `/${normalizedPath}`;
     }
-    if (normalizedPath.endsWith('/')) {
-      normalizedPath = normalizedPath.slice(0, -1);
+    if (!normalizedPath.endsWith('/')) {
+      normalizedPath = `${normalizedPath}/`;
     }
   }
 
-  const fullCanonical =
-    normalizedPath === '/'
-      ? `${siteConfig.url}/`
-      : `${siteConfig.url}${normalizedPath}`;
+  const fullCanonical = `${siteConfig.url}${normalizedPath}`;
 
-  const metaImage = image || DEFAULT_OG_IMAGE;
+  const metaImage = image
+    ? image.startsWith('http')
+      ? image
+      : `${siteConfig.url}${image.startsWith('/') ? image : `/${image}`}`
+    : DEFAULT_OG_IMAGE;
 
   return (
     <Head>

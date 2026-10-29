@@ -114,7 +114,7 @@ export const AdSlot: React.FC<AdSlotProps> = ({
       aria-label="Advertisement"
       className={`relative my-8 flex flex-col items-center justify-center ${className}`}
     >
-      <span className="text-[10px] font-semibold tracking-wider uppercase text-gray-400 mb-1.5 select-none">
+      <span className="text-[10px] font-semibold tracking-wider uppercase text-gray-600 mb-1.5 select-none">
         Advertisement
       </span>
       <div className={`overflow-hidden flex items-center justify-center ${variantDimensions}`}>

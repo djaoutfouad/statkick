@@ -39,7 +39,7 @@ export const RelatedTools: React.FC<RelatedToolsProps> = ({
   return (
     <section className="my-10 rounded-2xl border border-gray-200 bg-gray-50/50 p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Sparkles className="w-4 h-4 text-green-600" />
+        <Sparkles className="w-4 h-4 text-green-700" />
         <h3 className="text-sm font-bold uppercase tracking-wider text-gray-900">
           Related Football Analytics Tools
         </h3>
@@ -52,21 +52,21 @@ export const RelatedTools: React.FC<RelatedToolsProps> = ({
         {related.map((tool) => (
           <Link
             key={tool.slug}
-            to={`/tools/${tool.slug}`}
+            to={`/tools/${tool.slug}/`}
             className="group flex flex-col justify-between p-4 rounded-xl bg-white border border-gray-200 hover:border-green-500 hover:shadow-md transition-all"
           >
             <div>
               <span className="inline-block px-2 py-0.5 text-[10px] font-semibold text-green-700 bg-green-50 rounded-md mb-2">
                 {tool.category}
               </span>
-              <h4 className="text-xs font-bold text-gray-900 group-hover:text-green-600 transition-colors">
+              <h4 className="text-xs font-bold text-gray-900 group-hover:text-green-700 transition-colors">
                 {tool.name}
               </h4>
               <p className="text-[11px] text-gray-600 mt-1 line-clamp-2">
                 {tool.tagline}
               </p>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-[11px] font-semibold text-green-600">
+            <div className="mt-3 flex items-center gap-1 text-[11px] font-semibold text-green-700">
               <span>Calculate</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </div>

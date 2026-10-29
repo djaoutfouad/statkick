@@ -139,10 +139,10 @@ export const LeagueTableSimulatorPage: React.FC = () => {
                       <td
                         className={`py-2.5 px-2 text-center font-mono font-semibold ${
                           team.gd > 0
-                            ? 'text-green-600'
+                            ? 'text-green-700'
                             : team.gd < 0
                             ? 'text-red-600'
-                            : 'text-gray-400'
+                            : 'text-gray-600'
                         }`}
                       >
                         {team.gd > 0 ? `+${team.gd}` : team.gd}

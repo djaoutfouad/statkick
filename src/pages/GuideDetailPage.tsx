@@ -25,7 +25,7 @@ export const GuideDetailPage: React.FC = () => {
   const guide = GUIDES_DATA.find((g) => g.slug === slug);
 
   if (!guide) {
-    return <Navigate to="/guides" replace />;
+    return <Navigate to="/guides/" replace />;
   }
 
   const relatedTools = TOOLS_LIST.filter((tool) =>
@@ -41,27 +41,27 @@ export const GuideDetailPage: React.FC = () => {
     publisher: {
       '@type': 'Organization',
       name: 'StatKick',
-      url: siteConfig.url,
+      url: `${siteConfig.url}/`,
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${siteConfig.url}/guides/${guide.slug}`,
+      '@id': `${siteConfig.url}/guides/${guide.slug}/`,
     },
   };
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <SEOHead
-        title={`${guide.title} | StatKick Guides`}
+        title={guide.seoTitle || `${guide.title} | StatKick`}
         description={guide.excerpt}
-        canonicalPath={`/guides/${guide.slug}`}
+        canonicalPath={`/guides/${guide.slug}/`}
         structuredData={guideStructuredData}
       />
       {/* Back button */}
       <div>
         <Link
-          to="/guides"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-green-600 transition-colors"
+          to="/guides/"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-green-700 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>{t.common.backToGuides}</span>
@@ -74,18 +74,18 @@ export const GuideDetailPage: React.FC = () => {
           <span className="px-3 py-1 rounded-full bg-green-50 text-green-700 font-bold border border-green-200">
             {guide.category}
           </span>
-          <span className="text-gray-400">•</span>
+          <span className="text-gray-600">•</span>
           <span className="px-2.5 py-0.5 rounded-md bg-gray-100 text-gray-700 font-semibold">
             {guide.difficulty}
           </span>
-          <span className="text-gray-400">•</span>
-          <span className="text-gray-500 flex items-center gap-1">
+          <span className="text-gray-600">•</span>
+          <span className="text-gray-600 flex items-center gap-1">
             <Clock className="w-3.5 h-3.5" />
             {guide.readTime}
           </span>
           {guide.lastReviewed && (
             <>
-              <span className="text-gray-400">•</span>
+              <span className="text-gray-600">•</span>
               <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-medium text-[11px] flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 Reviewed: {guide.lastReviewed}
@@ -109,7 +109,7 @@ export const GuideDetailPage: React.FC = () => {
       {/* Step by Step Breakdown */}
       <div className="space-y-8">
         <div className="flex items-center gap-2">
-          <Compass className="w-5 h-5 text-green-600" />
+          <Compass className="w-5 h-5 text-green-700" />
           <h2 className="text-xl font-bold text-gray-900">
             {t.guides.diagnosticFramework}
           </h2>
@@ -173,16 +173,16 @@ export const GuideDetailPage: React.FC = () => {
           <ul className="space-y-1.5 text-xs text-gray-600">
             {guide.references.map((ref, rIdx) => (
               <li key={rIdx} className="flex items-start gap-2">
-                <span className="text-green-600 font-bold">•</span>
+                <span className="text-green-700 font-bold">•</span>
                 <div>
                   <span className="font-semibold text-gray-800">{ref.title}</span>
-                  <span className="text-gray-500"> — {ref.source}</span>
+                  <span className="text-gray-600"> — {ref.source}</span>
                   {ref.url && (
                     <a
                       href={ref.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="ml-1 text-green-600 underline hover:text-green-700"
+                      className="ml-1 text-green-700 underline hover:text-green-800"
                     >
                       [Reference]
                     </a>
@@ -206,7 +206,7 @@ export const GuideDetailPage: React.FC = () => {
       {relatedTools.length > 0 && (
         <div className="border-t border-gray-200 pt-8 space-y-4">
           <div className="flex items-center gap-2">
-            <Wrench className="w-4 h-4 text-green-600" />
+            <Wrench className="w-4 h-4 text-green-700" />
             <h3 className="text-base sm:text-lg font-bold text-gray-900">
               {t.common.relatedTools}
             </h3>
@@ -217,21 +217,21 @@ export const GuideDetailPage: React.FC = () => {
               return (
                 <Link
                   key={tool.slug}
-                  to={`/tools/${tool.slug}`}
+                  to={`/tools/${tool.slug}/`}
                   className="bg-white border border-gray-200 rounded-xl p-4 hover:border-green-400 hover:shadow-md transition-all group flex flex-col justify-between"
                 >
                   <div>
                     <span className="text-[10px] font-bold text-green-700 uppercase tracking-wider">
                       {tool.category}
                     </span>
-                    <h4 className="text-sm font-bold text-gray-900 group-hover:text-green-600 transition-colors mt-0.5">
+                    <h4 className="text-sm font-bold text-gray-900 group-hover:text-green-700 transition-colors mt-0.5">
                       {tr.name || tool.name}
                     </h4>
                     <p className="text-xs text-gray-600 line-clamp-2 mt-1">
                       {tr.tagline || tool.tagline}
                     </p>
                   </div>
-                  <div className="pt-3 mt-3 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-green-600">
+                  <div className="pt-3 mt-3 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-green-700">
                     <span>{t.common.calculate}</span>
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </div>

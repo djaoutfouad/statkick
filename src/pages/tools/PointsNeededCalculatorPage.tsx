@@ -185,14 +185,14 @@ export const PointsNeededCalculatorPage: React.FC = () => {
                 result.viableCombinations.map((combo, idx) => (
                   <div key={idx} className="p-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="font-semibold text-green-600">
+                      <span className="font-semibold text-green-700">
                         {combo.wins} W
                       </span>
-                      <span className="text-gray-400">•</span>
+                      <span className="text-gray-600">•</span>
                       <span className="font-semibold text-amber-600">
                         {combo.draws} D
                       </span>
-                      <span className="text-gray-400">•</span>
+                      <span className="text-gray-600">•</span>
                       <span className="font-semibold text-red-600">
                         {combo.losses} L
                       </span>

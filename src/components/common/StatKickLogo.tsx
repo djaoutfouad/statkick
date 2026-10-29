@@ -207,7 +207,7 @@ export const StatKickLogo: React.FC<StatKickLogoProps> = ({
       {emblemSvg}
       <div className="flex flex-col justify-center leading-none select-none">
         <span className={`font-extrabold tracking-tight ${textClasses} ${statTextColor} flex items-center`}>
-          Stat<span className="text-green-600">Kick</span>
+          Stat<span className="text-green-700">Kick</span>
         </span>
         {subtitle && (
           <span className="text-[10px] font-medium text-gray-500 mt-0.5 hidden sm:inline tracking-normal">

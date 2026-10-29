@@ -6,8 +6,8 @@ import { Trophy, Cpu, ShieldCheck, Target, BarChart2, BookOpen } from 'lucide-re
 export const AboutPage: React.FC = () => {
   const seoData = {
     title: 'About StatKick — Football Stats Tools for Serious Fans',
-    description: 'Learn about StatKick: our mission, mathematical methodologies, client-side privacy architecture, and dedicated football analytics tools.',
-    canonicalPath: '/about',
+    description: 'Learn about StatKick: our mission, mathematical methodologies, client-side privacy architecture, and 21 dedicated football analytics tools.',
+    canonicalPath: '/about/',
   };
 
   return (
@@ -32,7 +32,7 @@ export const AboutPage: React.FC = () => {
       <section className="prose max-w-none text-sm text-gray-700 space-y-6 leading-relaxed">
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-2xs">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 mb-4">
-            <Target className="w-5 h-5 text-green-600" />
+            <Target className="w-5 h-5 text-green-700" />
             Our Mission & The StatKick Philosophy
           </h2>
           <p>
@@ -45,7 +45,7 @@ export const AboutPage: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center mb-3">
+            <div className="w-10 h-10 rounded-xl bg-green-50 text-green-700 flex items-center justify-center mb-3">
               <Cpu className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-gray-900 mb-2">
@@ -57,7 +57,7 @@ export const AboutPage: React.FC = () => {
           </div>
 
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center mb-3">
+            <div className="w-10 h-10 rounded-xl bg-green-50 text-green-700 flex items-center justify-center mb-3">
               <BarChart2 className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-gray-900 mb-2">
@@ -71,7 +71,7 @@ export const AboutPage: React.FC = () => {
 
         <div className="rounded-2xl border border-gray-200 bg-gray-50/50 p-6 sm:p-8">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 mb-4">
-            <BookOpen className="w-5 h-5 text-green-600" />
+            <BookOpen className="w-5 h-5 text-green-700" />
             What StatKick Is — and What It Is Not
           </h2>
           <div className="space-y-3 text-xs sm:text-sm text-gray-600">
@@ -91,7 +91,7 @@ export const AboutPage: React.FC = () => {
         </div>
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-2xs">
-          <ShieldCheck className="w-8 h-8 text-green-600 mx-auto mb-2" />
+          <ShieldCheck className="w-8 h-8 text-green-700 mx-auto mb-2" />
           <h3 className="text-base font-bold text-gray-900 mb-1">
             Commitment to Ethical Publisher Standards
           </h3>

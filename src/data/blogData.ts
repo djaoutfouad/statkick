@@ -4,8 +4,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'what-is-xg-in-football',
     title: 'What Is Expected Goals (xG) in Football? A Complete Analytical Guide',
+    seoTitle: 'What Is Expected Goals (xG) in Football? | StatKick',
+    imageUrl: '/images/tool-shot-conversion.webp',
     excerpt:
-      'Explore how Expected Goals (xG) calculates shot probability, why xG revolutionized scouting, and how to separate genuine clinical finishing from unsustainable luck.',
+      'Learn how Expected Goals (xG) measures shot probability in football, why npxG improves player scouting, and how to evaluate clinical striker finishing.',
     category: 'Football Statistics',
     date: '2026-02-15',
     lastReviewed: '2026-02-28',
@@ -66,8 +68,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-football-player-ratings-work',
     title: 'How Football Player Ratings Work: Algorithms vs Human Bias',
+    seoTitle: 'How Football Player Ratings Work: Guide | StatKick',
+    imageUrl: '/images/tool-performance-rater.webp',
     excerpt:
-      'A deep dive into how algorithmic match ratings are calculated, how positional weightings function, and why algorithmic scoring eliminates subjective media bias.',
+      'Discover how algorithmic football match ratings are calculated, how positional weights work across 4 roles, and why data models eliminate media bias.',
     category: 'Player Analysis',
     date: '2026-02-10',
     lastReviewed: '2026-02-28',
@@ -123,8 +127,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'what-is-ppda-how-is-pressing-measured',
     title: 'What Is PPDA and How Is Pressing Measured in Football Analytics?',
+    seoTitle: 'What Is PPDA & How Is Pressing Measured? | StatKick',
+    imageUrl: '/images/tool-pressing-ppda.webp',
     excerpt:
-      'Understand Passes Allowed Per Defensive Action (PPDA), how it defines high-pressing systems versus low blocks, and how coaches quantify defensive intensity.',
+      'Understand Passes Allowed Per Defensive Action (PPDA), how it distinguishes high-pressing systems from low blocks, and how coaches measure press rate.',
     category: 'Tactics & Strategy',
     date: '2026-02-05',
     lastReviewed: '2026-02-28',
@@ -180,8 +186,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-analyze-football-team-performance',
     title: 'How to Analyze a Football Team’s Performance Beyond the Scoreline',
+    seoTitle: 'How to Analyze Football Team Performance | StatKick',
+    imageUrl: '/images/tool-team-comparison.webp',
     excerpt:
-      'A structured 5-step framework for diagnosing team strengths, attacking efficiency, defensive structure, and underlying sustainability.',
+      'Follow a structured 4-pillar analytical framework to evaluate football team performance using Expected Goal Differential, Field Tilt, and set pieces.',
     category: 'Team Analysis',
     date: '2026-01-28',
     lastReviewed: '2026-02-28',
@@ -235,8 +243,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'possession-vs-performance',
     title: 'Possession vs Performance: Why More Ball Control Doesn’t Guarantee Victory',
+    seoTitle: 'Possession vs Performance in Football Data | StatKick',
+    imageUrl: '/images/tool-pass-accuracy.webp',
     excerpt:
-      'Why sterile possession fails against organized low blocks, how transition threat neutralizes possession dominance, and how to measure possession value.',
+      'Analyze why sterile ball possession fails against organized low blocks, how transition threat works, and how to measure true possession efficiency.',
     category: 'Tactics & Strategy',
     date: '2026-01-20',
     lastReviewed: '2026-02-28',
@@ -286,8 +296,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-compare-football-players-using-statistics',
     title: 'How to Compare Football Players Using Statistics: The Scout’s Playbook',
+    seoTitle: 'How to Compare Football Players Using Data | StatKick',
+    imageUrl: '/images/tool-performance-rater.webp',
     excerpt:
-      'Learn how professional scouting departments use per-90 metrics, percentiles, radar charts, and role normalization to compare players across leagues.',
+      'Learn how professional football scouts use Per 90 metrics, possession-adjusted defensive stats, and role normalization to compare players accurately.',
     category: 'Player Analysis',
     date: '2026-01-15',
     lastReviewed: '2026-02-28',
@@ -337,8 +349,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'understanding-shot-conversion-rate',
     title: 'Understanding Shot Conversion Rate and Striker Finishing Efficiency',
+    seoTitle: 'Shot Conversion Rate & Striker Finishing | StatKick',
+    imageUrl: '/images/tool-shot-conversion.webp',
     excerpt:
-      'Analyze what separates world-class goalscorers from wasteful volume shooters, how big chance conversion works, and why finishing rates fluctuate.',
+      'Explore what separates clinical goalscorers from volume shooters, how big chance conversion rate works, and how to measure striker finishing quality.',
     category: 'Performance Analysis',
     date: '2026-01-08',
     lastReviewed: '2026-02-28',
@@ -388,8 +402,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-analyze-football-form',
     title: 'How to Analyze Football Form: Rolling Momentum & Consistency',
+    seoTitle: 'How to Analyze Football Form & Momentum | StatKick',
+    imageUrl: '/images/tool-player-form.webp',
     excerpt:
-      'How to quantify short-term player momentum, why 5-match rolling averages outperform season-long totals, and how discipline impacts form.',
+      'Quantify short-term player momentum with 5-match rolling averages, disciplinary card deductions, and playing time durability bonuses for fantasy picks.',
     category: 'Performance Analysis',
     date: '2025-12-29',
     readTime: '6 min',
@@ -433,8 +449,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'football-transfer-value',
     title: 'Football Transfer Value: How Player Valuations and Amortization Work',
+    seoTitle: 'Football Transfer Value & FFP Amortization | StatKick',
+    imageUrl: '/images/tool-transfer-value.webp',
     excerpt:
-      'Demystifying football transfer accounting: age decay curves, contract duration multipliers, and how Financial Fair Play (PSR/FFP) amortization functions.',
+      'Understand football transfer valuations, player age curves, contract leverage multipliers, and how FFP/PSR transfer fee accounting amortization works.',
     category: 'Transfer Analysis',
     date: '2025-12-20',
     readTime: '9 min',
@@ -483,8 +501,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'fantasy-football-statistics',
     title: 'Fantasy Football Statistics: Using Underlying Data to Win Mini-Leagues',
+    seoTitle: 'Fantasy Football Statistics & FPL Strategy | StatKick',
+    imageUrl: '/images/tool-fantasy-points.webp',
     excerpt:
-      'How to leverage expected points (xP), fixture difficulty ratings (FDR), captaincy algorithms, and transfer optimization to dominate fantasy leagues.',
+      'Use underlying Expected Points (xP), Fixture Difficulty Ratings (FDR), and algorithmic captaincy matrices to gain a statistical edge in mini-leagues.',
     category: 'Fantasy Football',
     date: '2025-12-14',
     readTime: '7 min',
@@ -529,8 +549,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-read-a-football-league-table',
     title: 'How to Read a Football League Table Beyond Points and Goal Difference',
+    seoTitle: 'How to Read a Football League Table & xPTS | StatKick',
+    imageUrl: '/images/tool-league-simulator.webp',
     excerpt:
-      'Why standard league tables lie during mid-season, how Expected Points (xPTS) and matches in hand reveal the true title and relegation races.',
+      'Learn why early-season football standings can mislead, how Expected Points (xPTS) reveals true club strength, and how to project title or survival runs.',
     category: 'Football Data',
     date: '2025-12-05',
     readTime: '6 min',
@@ -574,8 +596,10 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'football-statistics-every-serious-fan-should-know',
     title: '10 Advanced Football Statistics Every Serious Fan Should Know',
+    seoTitle: '10 Advanced Football Stats Fans Should Know | StatKick',
+    imageUrl: '/images/tool-formation-tactics.webp',
     excerpt:
-      'From xT and PPDA to Field Tilt and Progressive Carries: the ultimate glossary and analytical guide to modern football data.',
+      'Master the 10 essential modern football analytics metrics including Expected Goals (xG), Expected Threat (xT), PPDA pressing, and Progressive Carries.',
     category: 'Football Statistics',
     date: '2025-11-25',
     readTime: '9 min',

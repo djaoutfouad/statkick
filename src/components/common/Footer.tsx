@@ -23,11 +23,11 @@ export const Footer: React.FC = () => {
             </p>
             <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 pt-1">
               <span className="inline-flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5 text-green-600" />
+                <Cpu className="w-3.5 h-3.5 text-green-700" />
                 {t.footer.clientSideNotice}
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
+                <ShieldCheck className="w-3.5 h-3.5 text-green-700" />
                 {t.footer.privacyNotice}
               </span>
             </div>
@@ -40,32 +40,32 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link to="/" className="hover:text-green-600 transition-colors">
+                <Link to="/" className="hover:text-green-700 transition-colors">
                   {t.nav.allTools}
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="hover:text-green-600 transition-colors">
+                <Link to="/blog/" className="hover:text-green-700 transition-colors">
                   {t.nav.blog}
                 </Link>
               </li>
               <li>
-                <Link to="/guides" className="hover:text-green-600 transition-colors">
+                <Link to="/guides/" className="hover:text-green-700 transition-colors">
                   {t.nav.guides}
                 </Link>
               </li>
               <li>
-                <Link to="/methodology" className="hover:text-green-600 transition-colors">
+                <Link to="/methodology/" className="hover:text-green-700 transition-colors">
                   {t.nav.methodology}
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-green-600 transition-colors">
+                <Link to="/about/" className="hover:text-green-700 transition-colors">
                   {t.nav.about}
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-green-600 transition-colors">
+                <Link to="/contact/" className="hover:text-green-700 transition-colors">
                   {t.nav.contact}
                 </Link>
               </li>
@@ -79,22 +79,22 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link to="/privacy" className="hover:text-green-600 transition-colors">
+                <Link to="/privacy/" className="hover:text-green-700 transition-colors">
                   {t.footer.privacyPolicy}
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="hover:text-green-600 transition-colors">
+                <Link to="/terms/" className="hover:text-green-700 transition-colors">
                   {t.footer.termsOfUse}
                 </Link>
               </li>
               <li>
-                <Link to="/cookies" className="hover:text-green-600 transition-colors">
+                <Link to="/cookies/" className="hover:text-green-700 transition-colors">
                   {t.footer.cookiePolicy}
                 </Link>
               </li>
               <li>
-                <Link to="/disclaimer" className="hover:text-green-600 transition-colors">
+                <Link to="/disclaimer/" className="hover:text-green-700 transition-colors">
                   {t.footer.disclaimer}
                 </Link>
               </li>
@@ -102,9 +102,9 @@ export const Footer: React.FC = () => {
                 <button
                   type="button"
                   onClick={openConsentPreferencesModal}
-                  className="hover:text-green-600 transition-colors text-left flex items-center gap-1 text-gray-500 hover:underline cursor-pointer"
+                  className="hover:text-green-700 transition-colors text-left flex items-center gap-1 text-gray-600 hover:underline cursor-pointer"
                 >
-                  <Sliders className="w-3 h-3 text-green-600 shrink-0" />
+                  <Sliders className="w-3 h-3 text-green-700 shrink-0" />
                   <span>Manage Cookie Consent</span>
                 </button>
               </li>

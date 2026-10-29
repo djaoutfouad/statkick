@@ -20,6 +20,16 @@ export default defineConfig({
   ssgOptions: {
     script: 'async',
     formatting: 'none',
+    onPageRendered(_route: string, renderedHTML: string) {
+      // Ensure <meta charset="UTF-8"> and <meta name="viewport"> are always the very first tags after <head> (within 1024 bytes for W3C)
+      const cleaned = renderedHTML
+        .replace(/<meta\s+charset=["']UTF-8["']\s*\/?>\s*/gi, '')
+        .replace(/<meta\s+name=["']viewport["']\s+content=["']width=device-width,\s*initial-scale=1\.0["']\s*\/?>\s*/gi, '');
+      return cleaned.replace(
+        /<head>/i,
+        '<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    '
+      );
+    },
     includedRoutes() {
       return [
         '/',

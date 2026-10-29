@@ -110,7 +110,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="absolute top-5 right-5 p-2 rounded-lg text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
           aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
@@ -139,6 +139,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                   ref={nameInputRef}
                   id="modal-name"
                   type="text"
+                  dir="ltr"
+                  lang="en"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Alex Morgan"
@@ -165,6 +167,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                 <input
                   id="modal-email"
                   type="email"
+                  dir="ltr"
+                  lang="en"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="alex@example.com"
@@ -250,7 +254,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
           </div>
         ) : (
           <div className="text-center py-6">
-            <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 rounded-full bg-green-100 text-green-700 flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 className="w-7 h-7" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">

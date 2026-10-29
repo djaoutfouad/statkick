@@ -59,7 +59,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
         <div>
           <div className="flex items-center justify-between gap-2 mb-3">
-            <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-green-600 group-hover:scale-105 group-hover:bg-green-50 transition-all">
+            <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-green-700 group-hover:scale-105 group-hover:bg-green-50 transition-all">
               <IconComponent className="w-4.5 h-4.5" />
             </div>
             <span
@@ -71,7 +71,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
             </span>
           </div>
 
-          <h3 className="text-base font-bold text-gray-900 group-hover:text-green-600 transition-colors">
+          <h3 className="text-base font-bold text-gray-900 group-hover:text-green-700 transition-colors">
             {displayName}
           </h3>
           <p className="mt-2 text-xs text-gray-600 line-clamp-3 leading-relaxed">
@@ -79,14 +79,14 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           </p>
         </div>
 
-        <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-green-600">
+        <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-green-700">
           <span>{t.common.calculate}</span>
           <Icons.ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </div>
       </div>
 
       <Link
-        to={`/tools/${tool.slug}`}
+        to={`/tools/${tool.slug}/`}
         className="absolute inset-0 z-20"
         aria-label={`Open ${displayName} calculator`}
       />

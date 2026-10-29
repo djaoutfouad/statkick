@@ -11,21 +11,23 @@ const EN_US_INTEGER_FORMATTER = new Intl.NumberFormat('en-US', {
 
 const ARABIC_INDIC_DIGITS = /[\u0660-\u0669]/g;
 const EASTERN_ARABIC_INDIC_DIGITS = /[\u06F0-\u06F9]/g;
+const FULLWIDTH_DIGITS = /[\uFF10-\uFF19]/g;
 
 /**
- * Normalizes any Eastern Arabic (٠-٩) or Persian/Urdu (۰-۹) digits into standard ASCII digits (0-9).
+ * Normalizes any Eastern Arabic (٠-٩), Persian/Urdu (۰-۹), or Fullwidth (０-９) digits into standard ASCII digits (0-9).
  */
 export function normalizeNumerals(input: string | number | null | undefined): string {
   if (input === null || input === undefined) return '';
   const str = typeof input === 'string' ? input : String(input);
   return str
     .replace(ARABIC_INDIC_DIGITS, (d) => String(d.charCodeAt(0) - 0x0660))
-    .replace(EASTERN_ARABIC_INDIC_DIGITS, (d) => String(d.charCodeAt(0) - 0x06F0));
+    .replace(EASTERN_ARABIC_INDIC_DIGITS, (d) => String(d.charCodeAt(0) - 0x06F0))
+    .replace(FULLWIDTH_DIGITS, (d) => String(d.charCodeAt(0) - 0xFF10));
 }
 
 /**
  * Normalizes user typed string into a clean numeric string with standard ASCII digits and standard dot separator.
- * Converts Eastern Arabic (٠-٩) and Persian (۰-۹) numerals, Arabic comma (،), Persian decimal (٫), and standard comma (,) to dot.
+ * Converts Eastern Arabic (٠-٩) and Persian (۰-۹) numerals, Arabic comma (،), Persian decimal (٫), Arabic thousands separator (٬), and standard comma (,) to dot.
  * Ensures only digits, at most one decimal point, and optional leading minus are preserved.
  */
 export function normalizeDecimalInput(
@@ -36,8 +38,8 @@ export function normalizeDecimalInput(
   if (input === null || input === undefined) return '';
   let normalized = normalizeNumerals(input).trim();
 
-  // Replace Arabic comma (،), Persian decimal (٫), or comma with standard dot
-  normalized = normalized.replace(/[\u060C\u066B,]/g, allowDecimal ? '.' : '');
+  // Replace Arabic comma (،), Persian decimal (٫), Arabic thousands separator (٬), or comma with standard dot
+  normalized = normalized.replace(/[\u060C\u066B\u066C,]/g, allowDecimal ? '.' : '');
 
   let result = '';
   let hasDot = false;
@@ -57,6 +59,46 @@ export function normalizeDecimalInput(
   }
 
   return result;
+}
+
+/**
+ * Centralized calculator input sanitizer for onChange handlers.
+ * Immediately converts Eastern Arabic (٠-٩), Persian (۰-۹), and Arabic commas (،/٫) into standard Latin digits (0-9 and .)
+ * and returns both the clean display string and a guaranteed finite number (never NaN).
+ */
+export function sanitizeCalculatorInput(
+  rawInput: string | number | null | undefined,
+  allowDecimal: boolean = true,
+  allowNegative: boolean = false,
+  max?: number
+): { display: string; numericValue: number } {
+  let cleaned = normalizeDecimalInput(rawInput, allowDecimal, allowNegative);
+
+  if (cleaned === '') {
+    return { display: '', numericValue: 0 };
+  }
+
+  if (cleaned === '-' && allowNegative) {
+    return { display: '-', numericValue: 0 };
+  }
+
+  if (allowDecimal && cleaned.endsWith('.')) {
+    const partialParsed = parseFloat(cleaned);
+    const safePartial = isNaN(partialParsed) || !isFinite(partialParsed) ? 0 : partialParsed;
+    return { display: cleaned, numericValue: safePartial };
+  }
+
+  let parsed = parseFloat(cleaned);
+  if (isNaN(parsed) || !isFinite(parsed)) {
+    return { display: '', numericValue: 0 };
+  }
+
+  if (max !== undefined && parsed > max) {
+    parsed = max;
+    cleaned = String(max);
+  }
+
+  return { display: cleaned, numericValue: parsed };
 }
 
 /**

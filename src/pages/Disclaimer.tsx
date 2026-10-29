@@ -8,9 +8,9 @@ export const Disclaimer: React.FC = () => {
   const { t } = useLanguage();
 
   const seoData = {
-    title: 'Disclaimer & Editorial Policy | StatKick',
-    description: 'Informational and mathematical notice: StatKick calculations are quantitative models for educational and recreational purposes.',
-    canonicalPath: '/disclaimer',
+    title: 'Editorial Policy & Mathematical Disclaimer | StatKick',
+    description: 'Read the StatKick informational and mathematical disclaimer: all 21 football calculations are quantitative models for educational research only.',
+    canonicalPath: '/disclaimer/',
   };
 
   return (
@@ -19,7 +19,7 @@ export const Disclaimer: React.FC = () => {
       <div>
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-green-600 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-green-700 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>{t.common.backToHome}</span>

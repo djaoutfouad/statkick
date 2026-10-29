@@ -6,9 +6,9 @@ import { openConsentPreferencesModal } from '../utils/consentManager';
 
 export const CookiesPage: React.FC = () => {
   const seoData = {
-    title: 'Cookie & Consent Policy | StatKick',
-    description: 'Detailed information regarding cookie usage, local browser storage, and advertising consent controls on StatKick.',
-    canonicalPath: '/cookies',
+    title: 'Cookie Policy & Browser Storage Controls | StatKick',
+    description: 'Read detailed disclosures regarding local browser storage, preference keys, and advertising consent controls on the StatKick analytics platform.',
+    canonicalPath: '/cookies/',
   };
 
   return (
@@ -24,7 +24,7 @@ export const CookiesPage: React.FC = () => {
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
           Cookie & Consent Policy
         </h1>
-        <p className="mt-2 text-xs sm:text-sm text-gray-500">
+        <p className="mt-2 text-xs sm:text-sm text-gray-600">
           Last Updated: February 2026 • StatKick Independent Football Analytics
         </p>
       </header>
@@ -33,7 +33,7 @@ export const CookiesPage: React.FC = () => {
       <article className="prose max-w-none text-xs sm:text-sm text-gray-700 space-y-6 leading-relaxed">
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 space-y-4 shadow-2xs">
           <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            <CheckSquare className="w-4 h-4 text-green-600" />
+            <CheckSquare className="w-4 h-4 text-green-700" />
             1. What Are Cookies and Local Storage?
           </h2>
           <p>
@@ -43,7 +43,7 @@ export const CookiesPage: React.FC = () => {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 space-y-4 shadow-2xs">
           <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            <ToggleRight className="w-4 h-4 text-green-600" />
+            <ToggleRight className="w-4 h-4 text-green-700" />
             2. Categories of Storage Used on StatKick
           </h2>
 
@@ -70,7 +70,7 @@ export const CookiesPage: React.FC = () => {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 space-y-4 shadow-2xs">
           <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            <Settings className="w-4 h-4 text-green-600" />
+            <Settings className="w-4 h-4 text-green-700" />
             3. How to Manage and Disable Cookies
           </h2>
           <p>
@@ -84,7 +84,7 @@ export const CookiesPage: React.FC = () => {
         </div>
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-2xs space-y-4">
-          <ShieldCheck className="w-8 h-8 text-green-600 mx-auto" />
+          <ShieldCheck className="w-8 h-8 text-green-700 mx-auto" />
           <div>
             <h3 className="text-sm font-bold text-gray-900 mb-1">
               Transparent Consent Controls

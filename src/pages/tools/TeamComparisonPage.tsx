@@ -272,7 +272,7 @@ export const TeamComparisonPage: React.FC = () => {
                     <span className={cat.winner === 'Team A' ? 'font-bold text-blue-600' : 'text-gray-600'}>
                       {cat.teamAValue}{cat.unit}
                     </span>
-                    <span className="mx-2 text-gray-400">vs</span>
+                    <span className="mx-2 text-gray-600">vs</span>
                     <span className={cat.winner === 'Team B' ? 'font-bold text-emerald-600' : 'text-gray-600'}>
                       {cat.teamBValue}{cat.unit}
                     </span>
@@ -289,7 +289,7 @@ export const TeamComparisonPage: React.FC = () => {
                       </span>
                     )}
                     {cat.winner === 'Tie' && (
-                      <span className="inline-flex items-center gap-1 text-gray-400 font-semibold">
+                      <span className="inline-flex items-center gap-1 text-gray-600 font-semibold">
                         <Minus className="w-3.5 h-3.5" /> Tie
                       </span>
                     )}

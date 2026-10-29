@@ -16,9 +16,9 @@ export const Guides: React.FC = () => {
   }, [selectedDifficulty]);
 
   const seoData = {
-    title: 'Football Analytics & Tactical Guides | StatKick',
+    title: 'Football Analytics & Tactical Analysis Guides | StatKick',
     description: 'Step-by-step guides explaining how to analyze players, compare teams, measure pressing intensity (PPDA), and evaluate match statistics.',
-    canonicalPath: '/guides',
+    canonicalPath: '/guides/',
   };
 
   return (
@@ -82,15 +82,15 @@ export const Guides: React.FC = () => {
                 >
                   {guide.difficulty}
                 </span>
-                <span className="text-xs text-gray-400 flex items-center gap-1">
+                <span className="text-xs text-gray-600 flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5" />
                   {guide.readTime}
                 </span>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-600 transition-colors">
-                  <Link to={`/guides/${guide.slug}`}>{guide.title}</Link>
+                <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-700 transition-colors">
+                  <Link to={`/guides/${guide.slug}/`}>{guide.title}</Link>
                 </h3>
                 <p className="text-xs text-green-700 font-medium mt-0.5">{guide.tagline}</p>
               </div>
@@ -107,7 +107,7 @@ export const Guides: React.FC = () => {
                 <ul className="space-y-1.5 text-xs text-gray-600">
                   {guide.steps.map((step, idx) => (
                     <li key={idx} className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-green-600 shrink-0" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-green-700 shrink-0" />
                       <span className="truncate">{step.title}</span>
                     </li>
                   ))}
@@ -116,12 +116,13 @@ export const Guides: React.FC = () => {
             </div>
 
             <div className="pt-5 mt-4 border-t border-gray-100 flex items-center justify-between">
-              <span className="text-xs text-gray-500 font-medium">
+              <span className="text-xs text-gray-600 font-medium">
                 {guide.category}
               </span>
               <Link
-                to={`/guides/${guide.slug}`}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-green-600 group-hover:text-green-700 transition-colors"
+                to={`/guides/${guide.slug}/`}
+                aria-label={`Read guide on ${guide.title}`}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 group-hover:text-green-800 transition-colors"
               >
                 <span>{t.common.readGuide}</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

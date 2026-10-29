@@ -4,9 +4,10 @@ export const GUIDES_DATA: GuideItem[] = [
   {
     slug: 'beginners-guide-to-football-analytics',
     title: 'Beginner’s Guide to Football Analytics',
+    seoTitle: 'Beginner’s Guide to Football Analytics Data | StatKick',
     tagline: 'A gentle, comprehensive introduction to understanding and interpreting modern football data',
     excerpt:
-      'Start here if you are new to football analytics. Learn what numbers matter, how to avoid common pitfalls, and how to read modern match reports like a pro analyst.',
+      'Start your football analytics journey here. Learn why match scorelines can mislead, master xG and PPDA, and contextualize player stats per 90 minutes.',
     category: 'Fundamentals',
     difficulty: 'Beginner',
     readTime: '6 min',
@@ -52,9 +53,10 @@ export const GUIDES_DATA: GuideItem[] = [
   {
     slug: 'how-to-analyze-a-player',
     title: 'How to Analyze a Football Player with Modern Metrics',
+    seoTitle: 'How to Analyze a Football Player with Data | StatKick',
     tagline: 'The recruitment analyst framework for evaluating individual player profiles',
     excerpt:
-      'A structured scouting guide covering on-ball technical output, physical durability, positional benchmarks, and contract valuation models.',
+      'Use a structured recruitment scouting guide to evaluate individual football players using positional roles, Per 90 metrics, and market value models.',
     category: 'Scouting & Player Analysis',
     difficulty: 'Intermediate',
     readTime: '8 min',
@@ -98,9 +100,10 @@ export const GUIDES_DATA: GuideItem[] = [
   {
     slug: 'how-to-compare-two-football-teams',
     title: 'How to Compare Two Football Teams Using Data',
+    seoTitle: 'How to Compare Two Football Teams with Data | StatKick',
     tagline: 'A side-by-side diagnostic checklist for pre-match previews and tactical battles',
     excerpt:
-      'Compare attacking firepower, defensive solidity, territorial dominance, and transition vulnerability between any two clubs.',
+      'Run a side-by-side tactical diagnostic between two football clubs by comparing Expected Goal Differential, PPDA pressing styles, and set-piece threat.',
     category: 'Team & Tactical Analysis',
     difficulty: 'Intermediate',
     readTime: '7 min',
@@ -141,9 +144,10 @@ export const GUIDES_DATA: GuideItem[] = [
   {
     slug: 'how-to-measure-pressing',
     title: 'How to Measure Pressing & Defensive Intensity',
+    seoTitle: 'How to Measure Pressing Intensity & PPDA | StatKick',
     tagline: 'From PPDA to defensive line height: how to quantify defensive pressure',
     excerpt:
-      'A complete practitioner’s handbook for calculating pressing intensity, recovery zones, and defensive turnover conversion.',
+      'Follow a step-by-step tactical practitioner guide to calculating Passes Allowed Per Defensive Action (PPDA), high turnovers, and pressing efficiency.',
     category: 'Tactical Analytics',
     difficulty: 'Advanced',
     readTime: '9 min',
@@ -187,9 +191,10 @@ export const GUIDES_DATA: GuideItem[] = [
   {
     slug: 'how-to-analyze-attacking-efficiency',
     title: 'How to Analyze Attacking Efficiency & Finishing',
+    seoTitle: 'How to Analyze Football Attacking Efficiency | StatKick',
     tagline: 'Diagnose whether a team’s goal tally is sustainable or due for regression',
     excerpt:
-      'Explore shot conversion rates, big chance finishing, shot distance, and attacking shot distribution models.',
+      'Diagnose whether a football team or striker goalscoring rate is sustainable by auditing overall shot conversion, big chance finishing, and season pace.',
     category: 'Attacking Analysis',
     difficulty: 'Intermediate',
     readTime: '6 min',
@@ -230,9 +235,10 @@ export const GUIDES_DATA: GuideItem[] = [
   {
     slug: 'how-to-analyze-defensive-performance',
     title: 'How to Analyze Defensive Performance & Solidity',
+    seoTitle: 'How to Analyze Football Defensive Solidity | StatKick',
     tagline: 'Beyond clean sheets: evaluating underlying defensive durability and organization',
     excerpt:
-      'Clean sheets can be misleading due to stellar goalkeeping. Learn how to isolate defensive structure, xGA, and box protection.',
+      'Look beyond raw clean sheets to evaluate true team defensive resilience using Expected Goals Conceded (xGA), set-piece danger, and backline compactness.',
     category: 'Defensive Analysis',
     difficulty: 'Intermediate',
     readTime: '7 min',
@@ -273,9 +279,10 @@ export const GUIDES_DATA: GuideItem[] = [
   {
     slug: 'how-to-use-football-statistics-correctly',
     title: 'How to Use Football Statistics Correctly: Avoiding Common Errors',
+    seoTitle: 'How to Use Football Statistics Correctly | StatKick',
     tagline: 'The golden rules of statistical integrity and ethical data storytelling in football',
     excerpt:
-      'Avoid cherry-picked numbers, confirmation bias, false correlations, and misleading sample sizes in football debates.',
+      'Avoid cherry-picked numbers, small sample size traps, and tactical context errors with our essential guide to ethical football statistical analysis.',
     category: 'Methodology & Ethics',
     difficulty: 'Beginner',
     readTime: '5 min',

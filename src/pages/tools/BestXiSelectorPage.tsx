@@ -112,7 +112,7 @@ export const BestXiSelectorPage: React.FC = () => {
           {/* Quick Add Player to Pool */}
           <div className="p-4 rounded-xl border border-gray-200 bg-gray-50/50">
             <h4 className="text-xs font-bold uppercase tracking-wider text-gray-700 mb-2 flex items-center gap-1.5">
-              <Plus className="w-3.5 h-3.5 text-green-600" />
+              <Plus className="w-3.5 h-3.5 text-green-700" />
               {labels.addCustomPlayer || 'Add Custom Player to Pool'} ({pool.length})
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
@@ -221,7 +221,7 @@ export const BestXiSelectorPage: React.FC = () => {
           <div className="rounded-xl border border-gray-200 overflow-hidden">
             <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700 flex items-center justify-between">
               <span>{labels.optimalLineup || 'Optimized Starting 11 Selection'} ({formation})</span>
-              <span className="text-green-600 font-mono">
+              <span className="text-green-700 font-mono">
                 {result.selectedXI.length} {labels.playersSelected || 'Players'}
               </span>
             </div>
@@ -250,7 +250,7 @@ export const BestXiSelectorPage: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-4 font-mono">
                       <span className="text-gray-500">£{p.cost.toFixed(1)}M</span>
-                      <span className="font-bold text-green-600">
+                      <span className="font-bold text-green-700">
                         {p.projectedPoints.toFixed(1)} pts
                       </span>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { normalizeDecimalInput, normalizeNumerals } from '../../utils/formatters';
+import { normalizeDecimalInput, normalizeNumerals, sanitizeCalculatorInput } from '../../utils/formatters';
 
 export interface InputFieldProps {
   id: string;
@@ -62,17 +62,19 @@ export const InputField: React.FC<InputFieldProps> = ({
   // Convert incoming value to ASCII string
   const formatIncomingValue = (val: number | string | null | undefined): string => {
     if (val === null || val === undefined || val === '') return '';
-    if (!isNumeric) return String(val);
+    if (!isNumeric) return normalizeNumerals(String(val));
     return normalizeDecimalInput(String(val), isDecimal, supportsNegative);
   };
 
   const [displayValue, setDisplayValue] = useState<string>(() => formatIncomingValue(value));
+  const [isFocused, setIsFocused] = useState<boolean>(false);
 
   // Synchronize incoming value when changed externally (presets, reset buttons, URL params)
   useEffect(() => {
     if (!isNumeric) {
-      if (value !== displayValue) {
-        setDisplayValue(value === null || value === undefined ? '' : String(value));
+      const normalizedVal = value === null || value === undefined ? '' : normalizeNumerals(String(value));
+      if (normalizedVal !== displayValue) {
+        setDisplayValue(normalizedVal);
       }
       return;
     }
@@ -84,82 +86,61 @@ export const InputField: React.FC<InputFieldProps> = ({
       return;
     }
 
-    // Check if numeric values match (e.g. '12.' vs 12, or '' vs 0 while editing)
+    // Check if numeric values match (e.g. '12.' vs 12, or '' vs 0 while focused and editing)
     const incomingNum = Number(value);
-    const currentNum = displayValue === '' ? 0 : Number(displayValue);
+    const parsedDisplay = displayValue === '' || displayValue === '-' ? 0 : parseFloat(displayValue);
+    const currentNum = isNaN(parsedDisplay) ? 0 : parsedDisplay;
 
-    // If numerical value differs (e.g. preset clicked), update display
-    if (isNaN(incomingNum) || incomingNum !== currentNum) {
+    // If numerical value differs (e.g. preset clicked), or if not focused and display is empty/partial, update display
+    if (isNaN(incomingNum) || incomingNum !== currentNum || (!isFocused && displayValue !== formatIncomingValue(value))) {
       setDisplayValue(formatIncomingValue(value));
     }
-  }, [value, isNumeric, isDecimal, supportsNegative]);
+  }, [value, isNumeric, isDecimal, supportsNegative, isFocused]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
 
     if (!isNumeric) {
-      setDisplayValue(raw);
-      onChange(raw);
+      const normalizedText = normalizeNumerals(raw);
+      setDisplayValue(normalizedText);
+      onChange(normalizedText);
       return;
     }
 
-    // Normalize Eastern Arabic and Persian numerals, commas, and dots in real time
-    let cleaned = normalizeDecimalInput(raw, isDecimal, supportsNegative);
+    // Centralized sanitization: converts Eastern Arabic (٠-٩), Persian (۰-۹), and Arabic commas (،/٫)
+    // into standard Latin digits (0-9 and .) and guarantees a finite number for onChange (never NaN).
+    const { display, numericValue } = sanitizeCalculatorInput(raw, isDecimal, supportsNegative, max);
+    setDisplayValue(display);
+    onChange(numericValue);
+  };
 
-    // Empty input: allow temporarily so user can backspace/edit freely without 0 snapping
-    if (cleaned === '') {
-      setDisplayValue('');
-      onChange('');
-      return;
-    }
-
-    // Single minus sign while user starts entering a negative number
-    if (cleaned === '-' && supportsNegative) {
-      setDisplayValue('-');
-      onChange('-');
-      return;
-    }
-
-    // Trailing decimal point while user is typing a fraction (e.g., '12.')
-    if (isDecimal && cleaned.endsWith('.')) {
-      setDisplayValue(cleaned);
-      onChange(cleaned);
-      return;
-    }
-
-    // Validate max constraint on the fly if positive
-    const numericVal = parseFloat(cleaned);
-    if (!isNaN(numericVal) && max !== undefined && numericVal > max) {
-      cleaned = String(max);
-    }
-
-    setDisplayValue(cleaned);
-
-    const parsed = parseFloat(cleaned);
-    if (isNaN(parsed)) {
-      onChange('');
-    } else {
-      onChange(parsed);
-    }
+  const handleFocus = () => {
+    setIsFocused(true);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (isNumeric && displayValue !== '') {
-      let num = parseFloat(displayValue);
-      if (!isNaN(num)) {
-        if (min !== undefined && num < min) {
-          num = min;
-          const clampedStr = String(num);
-          setDisplayValue(clampedStr);
-          onChange(num);
-        } else if (max !== undefined && num > max) {
-          num = max;
-          const clampedStr = String(num);
-          setDisplayValue(clampedStr);
-          onChange(num);
-        } else if (displayValue.endsWith('.')) {
-          setDisplayValue(String(num));
-          onChange(num);
+    setIsFocused(false);
+
+    if (isNumeric) {
+      if (displayValue === '' || displayValue === '-') {
+        const fallbackNum = min !== undefined && min > 0 ? min : 0;
+        setDisplayValue(String(fallbackNum));
+        onChange(fallbackNum);
+      } else {
+        let num = parseFloat(displayValue);
+        if (!isNaN(num)) {
+          if (min !== undefined && num < min) {
+            num = min;
+            setDisplayValue(String(num));
+            onChange(num);
+          } else if (max !== undefined && num > max) {
+            num = max;
+            setDisplayValue(String(num));
+            onChange(num);
+          } else if (displayValue.endsWith('.')) {
+            setDisplayValue(String(num));
+            onChange(num);
+          }
         }
       }
     }
@@ -197,9 +178,12 @@ export const InputField: React.FC<InputFieldProps> = ({
         <input
           id={id}
           type="text"
+          dir="ltr"
+          lang="en"
           inputMode={calculatedInputMode}
           value={displayValue}
           onChange={handleChange}
+          onFocus={handleFocus}
           onBlur={handleBlur}
           required={required}
           placeholder={placeholder}

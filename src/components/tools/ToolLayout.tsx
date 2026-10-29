@@ -44,9 +44,12 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
   const displayDesc = tr.description || tool.description;
   const activeFaqs = (faqs && faqs.length > 0) ? faqs : (tr.faqs || []);
 
+  const seoTitle = tool.seoTitle || `${displayName} | StatKick`;
+  const seoDesc = tool.description || displayDesc;
+
   const defaultBreadcrumbs: BreadcrumbItem[] = breadcrumbs || [
     { label: t.nav.allTools, path: '/' },
-    { label: tool.category, path: `/#${tool.category.toLowerCase()}` },
+    { label: tool.category, path: '/' },
     { label: displayName },
   ];
 
@@ -54,16 +57,23 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'SoftwareApplication',
+        '@type': ['SoftwareApplication', 'WebApplication'],
         name: displayName,
         applicationCategory: 'SportsApplication',
         operatingSystem: 'All',
-        description: displayDesc,
-        url: `${siteConfig.url}/tools/${tool.slug}`,
+        browserRequirements: 'Requires JavaScript',
+        description: seoDesc,
+        url: `${siteConfig.url}/tools/${tool.slug}/`,
+        image: tool.personaImageUrl ? `${siteConfig.url}${tool.personaImageUrl}` : `${siteConfig.url}/images/hero-stadium.webp`,
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
         author: {
           '@type': 'Organization',
           name: 'StatKick',
-          url: `${siteConfig.url}/about`,
+          url: `${siteConfig.url}/about/`,
         },
       },
       {
@@ -83,9 +93,10 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
   return (
     <div className="w-full pb-8">
       <SEOHead
-        title={`${displayName} | StatKick Football Analytics`}
-        description={displayDesc}
-        canonicalPath={`/tools/${tool.slug}`}
+        title={seoTitle}
+        description={seoDesc}
+        canonicalPath={`/tools/${tool.slug}/`}
+        image={tool.personaImageUrl}
         structuredData={seoStructuredData}
       />
       {/* 1. Breadcrumbs */}
@@ -97,7 +108,7 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
           <span className="px-2.5 py-0.5 text-xs font-semibold text-green-700 bg-green-50 rounded-full border border-green-200">
             {tool.category} Analytics
           </span>
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-gray-600">
             {t.common.clientSide}
           </span>
         </div>
@@ -113,7 +124,7 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
       <section className="mb-8 max-w-none text-xs sm:text-sm text-gray-700 space-y-4">
         <div className="rounded-2xl border border-gray-200 bg-gray-50/50 p-5">
           <div className="flex items-center gap-2 mb-2 font-bold text-gray-900 text-sm">
-            <BookOpen className="w-4 h-4 text-green-600" />
+            <BookOpen className="w-4 h-4 text-green-700" />
             <span>{t.common.overviewPurpose}</span>
           </div>
           {introContent || <p className="leading-relaxed">{tr.intro}</p>}
@@ -121,7 +132,7 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
 
         <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-2xs">
           <div className="flex items-center gap-2 mb-2 font-bold text-gray-900 text-sm">
-            <Sparkles className="w-4 h-4 text-green-600" />
+            <Sparkles className="w-4 h-4 text-green-700" />
             <span>{t.common.whyMetricMatters}</span>
           </div>
           {metricExplanation || <p className="leading-relaxed">{tr.metricExplanation}</p>}
@@ -135,14 +146,14 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
         aria-label={`${displayName} interactive interface`}
       >
         <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
-          <div className="w-8 h-8 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-green-50 text-green-700 flex items-center justify-center">
             <Calculator className="w-4 h-4" />
           </div>
           <div>
             <h2 className="text-base sm:text-lg font-bold text-gray-900">
               {displayName} — {t.common.inputConsole}
             </h2>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-600">
               {t.common.inputConsoleDesc}
             </p>
           </div>
@@ -154,7 +165,7 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
         {/* Results Display Area */}
         <div className="pt-6 border-t border-gray-100">
           <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <LineChart className="w-4 h-4 text-green-600" />
+            <LineChart className="w-4 h-4 text-green-700" />
             {t.common.calculatedOutput}
           </h3>
           {resultsNode}

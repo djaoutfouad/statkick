@@ -22,7 +22,7 @@ export const ToolFAQ: React.FC<ToolFAQProps> = ({
   return (
     <section className="my-8" aria-labelledby="faq-heading">
       <div className="flex items-center gap-2 mb-4">
-        <HelpCircle className="w-5 h-5 text-green-600" />
+        <HelpCircle className="w-5 h-5 text-green-700" />
         <h3 id="faq-heading" className="text-lg font-bold text-gray-900">
           {title}
         </h3>
@@ -38,13 +38,13 @@ export const ToolFAQ: React.FC<ToolFAQProps> = ({
               <button
                 type="button"
                 onClick={() => toggleIndex(index)}
-                className="w-full flex items-center justify-between p-4 text-left font-semibold text-xs sm:text-sm text-gray-900 hover:text-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full flex items-center justify-between p-4 text-left font-semibold text-xs sm:text-sm text-gray-900 hover:text-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
                 aria-expanded={isOpen}
               >
                 <span>{faq.question}</span>
                 <ChevronDown
                   className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
-                    isOpen ? 'rotate-180 text-green-600' : ''
+                    isOpen ? 'rotate-180 text-green-700' : ''
                   }`}
                 />
               </button>

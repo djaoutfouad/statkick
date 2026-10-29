@@ -71,7 +71,7 @@ export const SquadValueCalculatorPage: React.FC = () => {
           {/* Add New Player Form */}
           <div className="p-4 rounded-xl border border-gray-200 bg-gray-50/50">
             <h4 className="text-xs font-bold uppercase tracking-wider text-gray-700 mb-3 flex items-center gap-1.5">
-              <UserPlus className="w-3.5 h-3.5 text-green-600" />
+              <UserPlus className="w-3.5 h-3.5 text-green-700" />
               {labels.addSquadPlayer || 'Add Squad Player'} ({players.length}/25)
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
@@ -163,7 +163,7 @@ export const SquadValueCalculatorPage: React.FC = () => {
                       type="button"
                       onClick={() => handleRemovePlayer(p.id)}
                       disabled={players.length <= 1}
-                      className="text-gray-400 hover:text-red-600 disabled:opacity-30 p-1"
+                      className="text-gray-600 hover:text-red-600 disabled:opacity-30 p-1"
                       aria-label="Remove player"
                     >
                       <Trash2 className="w-3.5 h-3.5" />

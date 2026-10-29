@@ -179,7 +179,7 @@ export const FormationAnalyzerPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-4 rounded-xl border border-green-200 bg-green-50/30">
               <h4 className="text-xs font-bold uppercase tracking-wider text-green-700 mb-2 flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-green-600" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-green-700" />
                 {labels.strengths || 'Structural Strengths'}
               </h4>
               <ul className="space-y-1 text-xs text-gray-700">

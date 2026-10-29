@@ -163,10 +163,12 @@ export const FantasyFootballPointsPage: React.FC = () => {
                 <label className="flex items-center gap-2 cursor-pointer py-2.5">
                   <input
                     type="checkbox"
+                    dir="ltr"
+                    lang="en"
                     checked={cleanSheet && minutesPlayed >= 60}
                     onChange={(e) => setCleanSheet(e.target.checked)}
                     disabled={minutesPlayed < 60}
-                    className="w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300"
+                    className="w-4 h-4 rounded text-green-700 focus:ring-green-500 border-gray-300"
                   />
                   <span className="text-xs font-semibold text-gray-800">
                     {labels.cleanSheet || 'Clean Sheet Kept'} ({position === 'MID' ? '1 pt' : '4 pts'})
@@ -306,10 +308,10 @@ export const FantasyFootballPointsPage: React.FC = () => {
                   <span
                     className={`font-mono font-bold ${
                       item.points > 0
-                        ? 'text-green-600'
+                        ? 'text-green-700'
                         : item.points < 0
                         ? 'text-red-600'
-                        : 'text-gray-400'
+                        : 'text-gray-600'
                     }`}
                   >
                     {item.points > 0 ? `+${item.points}` : item.points} pts

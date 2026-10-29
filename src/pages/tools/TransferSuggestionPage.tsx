@@ -107,7 +107,7 @@ export const TransferSuggestionPage: React.FC = () => {
 
             {/* Player In Console */}
             <div className="p-4 rounded-2xl border border-green-200 bg-green-50/20 space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-green-600">
+              <div className="text-xs font-bold uppercase tracking-wider text-green-700">
                 {labels.playerInBuy || 'Player Transfer In (Buy)'}
               </div>
               <InputField

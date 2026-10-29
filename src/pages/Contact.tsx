@@ -8,9 +8,9 @@ import { Mail, Send, CheckCircle2, MessageSquare, HelpCircle, ShieldCheck, Alert
 
 export const ContactPage: React.FC = () => {
   const seoData = {
-    title: 'Contact Support & Feedback | StatKick',
-    description: 'Get in touch with the StatKick analytics team. Inquire about our football mathematical models, suggest new tools, or submit feedback.',
-    canonicalPath: '/contact',
+    title: 'Contact StatKick — Football Analytics Support & Feedback',
+    description: 'Get in touch with the StatKick analytics team. Inquire about our football mathematical models, suggest new calculators, or submit feedback.',
+    canonicalPath: '/contact/',
   };
 
   const [name, setName] = useState('');
@@ -127,7 +127,7 @@ export const ContactPage: React.FC = () => {
         <div className="lg:col-span-1 space-y-4">
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xs">
             <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2 mb-3">
-              <MessageSquare className="w-4 h-4 text-green-600" />
+              <MessageSquare className="w-4 h-4 text-green-700" />
               General Inquiries
             </h3>
             <p className="text-xs text-gray-600 leading-relaxed">
@@ -137,7 +137,7 @@ export const ContactPage: React.FC = () => {
 
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xs">
             <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2 mb-3">
-              <HelpCircle className="w-4 h-4 text-green-600" />
+              <HelpCircle className="w-4 h-4 text-green-700" />
               Formula Questions
             </h3>
             <p className="text-xs text-gray-600 leading-relaxed">
@@ -147,7 +147,7 @@ export const ContactPage: React.FC = () => {
 
           <div className="rounded-2xl border border-green-200 bg-green-50/50 p-5">
             <div className="flex items-center gap-2 text-xs font-semibold text-green-800 mb-1">
-              <ShieldCheck className="w-4 h-4 text-green-600" />
+              <ShieldCheck className="w-4 h-4 text-green-700" />
               Privacy Assurance
             </div>
             <p className="text-[11px] text-green-700 leading-relaxed">
@@ -167,6 +167,8 @@ export const ContactPage: React.FC = () => {
                   <input
                     id="website_hp"
                     type="text"
+                    dir="ltr"
+                    lang="en"
                     name="website_hp"
                     value={honeypot}
                     onChange={(e) => setHoneypot(e.target.value)}
@@ -268,7 +270,7 @@ export const ContactPage: React.FC = () => {
                 <div className="pt-2 flex items-center justify-between">
                   <a
                     href={`mailto:${contactEmail}`}
-                    className="text-xs text-gray-500 hover:text-green-600 underline"
+                    className="text-xs text-gray-600 hover:text-green-700 underline"
                   >
                     Direct email: {contactEmail}
                   </a>
@@ -284,7 +286,7 @@ export const ContactPage: React.FC = () => {
               </form>
             ) : (
               <div className="text-center py-8">
-                <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-full bg-green-100 text-green-700 flex items-center justify-center mx-auto mb-4">
                   <CheckCircle2 className="w-7 h-7" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">

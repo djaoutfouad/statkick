@@ -9,9 +9,9 @@ export const Methodology: React.FC = () => {
   const { t, getToolTranslation } = useLanguage();
 
   const seoData = {
-    title: 'Analytics Methodology & Formulas | StatKick',
-    description: 'Explore the mathematical frameworks, statistical normalization, positional weights, and metrics powering StatKick football calculators.',
-    canonicalPath: '/methodology',
+    title: 'Football Analytics Methodology & Formulas | StatKick',
+    description: 'Explore the mathematical frameworks, statistical normalization, positional weights, and metrics powering all 21 StatKick football calculators.',
+    canonicalPath: '/methodology/',
   };
 
   return (
@@ -105,7 +105,7 @@ export const Methodology: React.FC = () => {
           <h2 className="text-xl font-bold text-gray-900">
             {t.methodology.modelsHeading} (21)
           </h2>
-          <span className="text-xs text-gray-500 font-medium">
+          <span className="text-xs text-gray-600 font-medium">
             Open Analytical Specifications
           </span>
         </div>
@@ -128,8 +128,9 @@ export const Methodology: React.FC = () => {
                     </h3>
                   </div>
                   <Link
-                    to={`/tools/${tool.slug}`}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-green-600 hover:text-green-700 shrink-0"
+                    to={`/tools/${tool.slug}/`}
+                    aria-label={`Launch ${tr.name || tool.name}`}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-green-700 hover:text-green-800 shrink-0"
                   >
                     <span>Launch</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -141,7 +142,7 @@ export const Methodology: React.FC = () => {
                 </p>
 
                 <div className="bg-gray-50 rounded-lg p-3 text-xs font-mono text-gray-800 border border-gray-200/80">
-                  <strong className="text-gray-500 font-sans uppercase text-[10px] block mb-1">
+                  <strong className="text-gray-600 font-sans uppercase text-[10px] block mb-1">
                     Mathematical Formulation:
                   </strong>
                   {tool.formulaSummary}
