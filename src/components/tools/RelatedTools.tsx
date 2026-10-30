@@ -52,7 +52,7 @@ export const RelatedTools: React.FC<RelatedToolsProps> = ({
         {related.map((tool) => (
           <Link
             key={tool.slug}
-            to={`/tools/${tool.slug}/`}
+            to={`/tools/${tool.slug}`}
             className="group flex flex-col justify-between p-4 rounded-xl bg-white border border-gray-200 hover:border-green-500 hover:shadow-md transition-all"
           >
             <div>

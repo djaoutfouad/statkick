@@ -26,7 +26,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   const formattedTitle = title.includes(siteConfig.name) ? title : `${title} | ${siteConfig.name}`;
 
   // Robust path normalization:
-  // All URLs (root and inner pages) always end with a trailing slash '/'
+  // Homepage uses trailing slash ('/'), all subpages have NO trailing slash
   const cleanPath = (canonicalPath || '').trim();
   let normalizedPath = cleanPath;
   if (!normalizedPath || normalizedPath === '/') {
@@ -35,9 +35,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     if (!normalizedPath.startsWith('/')) {
       normalizedPath = `/${normalizedPath}`;
     }
-    if (!normalizedPath.endsWith('/')) {
-      normalizedPath = `${normalizedPath}/`;
-    }
+    normalizedPath = normalizedPath.replace(/\/+$/, '');
   }
 
   const fullCanonical = `${siteConfig.url}${normalizedPath}`;

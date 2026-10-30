@@ -105,11 +105,11 @@ export const ConsentBanner: React.FC = () => {
 
               <p className="text-xs text-gray-600 leading-relaxed">
                 StatKick processes all 21 football calculators locally inside your browser. We use essential storage for your chosen language and consent settings. Non-essential cookies for analytics and advertising are only loaded with your explicit permission. Review our{' '}
-                <Link to="/privacy/" className="text-green-700 underline font-medium hover:text-green-800">
+                <Link to="/privacy" className="text-green-700 underline font-medium hover:text-green-800">
                   Privacy Policy
                 </Link>{' '}
                 and{' '}
-                <Link to="/cookies/" className="text-green-700 underline font-medium hover:text-green-800">
+                <Link to="/cookies" className="text-green-700 underline font-medium hover:text-green-800">
                   Cookie Policy
                 </Link>
                 .

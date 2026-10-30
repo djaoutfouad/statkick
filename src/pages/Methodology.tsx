@@ -11,7 +11,7 @@ export const Methodology: React.FC = () => {
   const seoData = {
     title: 'Football Analytics Methodology & Formulas | StatKick',
     description: 'Explore the mathematical frameworks, statistical normalization, positional weights, and metrics powering all 21 StatKick football calculators.',
-    canonicalPath: '/methodology/',
+    canonicalPath: '/methodology',
   };
 
   return (
@@ -128,7 +128,7 @@ export const Methodology: React.FC = () => {
                     </h3>
                   </div>
                   <Link
-                    to={`/tools/${tool.slug}/`}
+                    to={`/tools/${tool.slug}`}
                     aria-label={`Launch ${tr.name || tool.name}`}
                     className="inline-flex items-center gap-1 text-xs font-bold text-green-700 hover:text-green-800 shrink-0"
                   >

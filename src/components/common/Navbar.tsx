@@ -13,10 +13,10 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { label: t.nav.tools, path: '/', icon: Grid },
-    { label: t.nav.blog, path: '/blog/', icon: BookOpen },
-    { label: t.nav.guides, path: '/guides/', icon: Compass },
-    { label: t.nav.methodology, path: '/methodology/', icon: FileText },
-    { label: t.nav.about, path: '/about/', icon: Info },
+    { label: t.nav.blog, path: '/blog', icon: BookOpen },
+    { label: t.nav.guides, path: '/guides', icon: Compass },
+    { label: t.nav.methodology, path: '/methodology', icon: FileText },
+    { label: t.nav.about, path: '/about', icon: Info },
   ];
 
   const isActive = (path: string) => {

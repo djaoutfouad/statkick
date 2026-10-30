@@ -25,7 +25,7 @@ export const GuideDetailPage: React.FC = () => {
   const guide = GUIDES_DATA.find((g) => g.slug === slug);
 
   if (!guide) {
-    return <Navigate to="/guides/" replace />;
+    return <Navigate to="/guides" replace />;
   }
 
   const relatedTools = TOOLS_LIST.filter((tool) =>
@@ -45,7 +45,7 @@ export const GuideDetailPage: React.FC = () => {
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${siteConfig.url}/guides/${guide.slug}/`,
+      '@id': `${siteConfig.url}/guides/${guide.slug}`,
     },
   };
 
@@ -54,13 +54,13 @@ export const GuideDetailPage: React.FC = () => {
       <SEOHead
         title={guide.seoTitle || `${guide.title} | StatKick`}
         description={guide.excerpt}
-        canonicalPath={`/guides/${guide.slug}/`}
+        canonicalPath={`/guides/${guide.slug}`}
         structuredData={guideStructuredData}
       />
       {/* Back button */}
       <div>
         <Link
-          to="/guides/"
+          to="/guides"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-green-700 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
@@ -217,7 +217,7 @@ export const GuideDetailPage: React.FC = () => {
               return (
                 <Link
                   key={tool.slug}
-                  to={`/tools/${tool.slug}/`}
+                  to={`/tools/${tool.slug}`}
                   className="bg-white border border-gray-200 rounded-xl p-4 hover:border-green-400 hover:shadow-md transition-all group flex flex-col justify-between"
                 >
                   <div>

@@ -8,7 +8,7 @@ export const CookiesPage: React.FC = () => {
   const seoData = {
     title: 'Cookie Policy & Browser Storage Controls | StatKick',
     description: 'Read detailed disclosures regarding local browser storage, preference keys, and advertising consent controls on the StatKick analytics platform.',
-    canonicalPath: '/cookies/',
+    canonicalPath: '/cookies',
   };
 
   return (

@@ -79,7 +79,7 @@ export const HomePage: React.FC = () => {
           '@type': 'ContactPoint',
           contactType: 'Editorial & Technical Support',
           email: 'contact.statkick@gmail.com',
-          url: `${siteConfig.url}/contact/`,
+          url: `${siteConfig.url}/contact`,
         },
       },
       {
@@ -222,7 +222,7 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
             <Link
-              to={`/guides/${featuredGuide.slug}/`}
+              to={`/guides/${featuredGuide.slug}`}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-500 hover:bg-green-400 active:bg-green-600 text-gray-950 font-bold text-xs transition-all shrink-0 shadow-md"
             >
               <span>{t.common.readGuide}</span>
@@ -259,8 +259,8 @@ export const HomePage: React.FC = () => {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all cursor-pointer ${
                   isSelected
-                    ? 'bg-green-600 text-white font-bold shadow-xs'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/70'
+                    ? 'bg-emerald-100 text-slate-800 border border-emerald-600 font-bold shadow-xs'
+                    : 'bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold'
                 }`}
               >
                 {getCategoryLabel(cat)}
@@ -330,7 +330,7 @@ export const HomePage: React.FC = () => {
             </p>
           </div>
           <Link
-            to="/blog/"
+            to="/blog"
             className="inline-flex items-center gap-1 text-xs font-bold text-green-700 hover:text-green-800"
           >
             <span>{t.common.viewAll}</span>
@@ -345,7 +345,7 @@ export const HomePage: React.FC = () => {
               className="bg-white border border-gray-200 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group"
             >
               <div className="space-y-3">
-                <Link to={`/blog/${post.slug}/`} className="block overflow-hidden rounded-xl">
+                <Link to={`/blog/${post.slug}`} className="block overflow-hidden rounded-xl">
                   <img
                     src={post.imageUrl || '/images/tool-performance-rater.webp'}
                     alt={post.title}
@@ -366,7 +366,7 @@ export const HomePage: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="text-sm sm:text-base font-bold text-gray-900 group-hover:text-green-700 transition-colors line-clamp-2">
-                  <Link to={`/blog/${post.slug}/`}>{post.title}</Link>
+                  <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                 </h3>
                 <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed">
                   {post.excerpt}
@@ -376,7 +376,7 @@ export const HomePage: React.FC = () => {
               <div className="pt-4 mt-3 border-t border-gray-100 flex items-center justify-between">
                 <span className="text-[11px] text-gray-600">{post.date}</span>
                 <Link
-                  to={`/blog/${post.slug}/`}
+                  to={`/blog/${post.slug}`}
                   aria-label={`Read full article on ${post.title}`}
                   className="text-xs font-bold text-green-700 group-hover:text-green-800 inline-flex items-center gap-1"
                 >
@@ -404,7 +404,7 @@ export const HomePage: React.FC = () => {
         </div>
         <div className="pt-2">
           <Link
-            to="/methodology/"
+            to="/methodology"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 hover:text-green-800"
           >
             <span>{t.home.methodologyCta}</span>

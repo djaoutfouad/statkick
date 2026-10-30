@@ -32,7 +32,7 @@ def get_expected_canonical(rel_path):
         rel = rel[:-5]
     if rel.endswith('/index'):
         rel = rel[:-6]
-    return f"{BASE_URL}/{rel}/"
+    return f"{BASE_URL}/{rel}"
 
 
 def check_html_files():
@@ -75,8 +75,8 @@ def check_html_files():
                 errors.append(
                     f"[{rel_path}] Canonical mismatch! Found: '{canonical_val}', Expected: '{expected_canonical}'"
                 )
-            if not canonical_val.endswith('/'):
-                errors.append(f"[{rel_path}] Canonical does not end with '/': {canonical_val}")
+            if rel_path != 'index.html' and canonical_val.endswith('/'):
+                errors.append(f"[{rel_path}] Subpage canonical must NOT end with '/': {canonical_val}")
             if FORBIDDEN_URL in canonical_val:
                 errors.append(f"[{rel_path}] Forbidden domain found in canonical: {canonical_val}")
 
@@ -92,8 +92,8 @@ def check_html_files():
                 errors.append(
                     f"[{rel_path}] og:url mismatch with canonical! og:url='{og_url_val}', canonical='{canonicals[0]}'"
                 )
-            if not og_url_val.endswith('/'):
-                errors.append(f"[{rel_path}] og:url does not end with '/': {og_url_val}")
+            if rel_path != 'index.html' and og_url_val.endswith('/'):
+                errors.append(f"[{rel_path}] Subpage og:url must NOT end with '/': {og_url_val}")
 
         # 3. <title> length check (48 to 58 characters)
         title_match = title_regex.search(content)
@@ -117,11 +117,11 @@ def check_html_files():
             if not (135 <= d_len <= 155):
                 errors.append(f"[{rel_path}] Description length {d_len} out of [135, 155] range: '{desc_text}'")
 
-        # 5. Internal <a href="/..."> trailing slash check
+        # 5. Internal <a href="/..."> check: root is '/', subpages must NOT end with '/'
         for m in href_regex.finditer(content):
             href_val = m.group(1)
-            if not href_val.endswith('/'):
-                errors.append(f"[{rel_path}] Internal link href does not end with '/': '{href_val}'")
+            if href_val != '/' and href_val.endswith('/'):
+                errors.append(f"[{rel_path}] Internal subpage link href must NOT end with '/': '{href_val}'")
 
         # 6. Check for forbidden external Unsplash URLs or statkick.com
         if "images.unsplash.com" in content:
@@ -138,9 +138,9 @@ def check_html_files():
             errors.append("sitemap.xml contains forbidden domain 'https://statkick.com'")
         for m in re.finditer(r'<loc>([^<]+)</loc>', sm_content):
             loc_url = m.group(1).strip()
-            if not loc_url.endswith('/'):
-                errors.append(f"sitemap.xml <loc> does not end with '/': {loc_url}")
-        print("Checked sitemap.xml: all <loc> URLs end with '/' and no forbidden domain found.")
+            if loc_url != f"{BASE_URL}/" and loc_url.endswith('/'):
+                errors.append(f"sitemap.xml subpage <loc> must NOT end with '/': {loc_url}")
+        print("Checked sitemap.xml: homepage ends with '/' and all 49 subpages have no trailing slash.")
 
     print("\n" + "=" * 60)
     print(f"VERIFICATION SUMMARY: Checked {checked_count} HTML files.")
@@ -154,7 +154,7 @@ def check_html_files():
         print("1. <meta charset=\"UTF-8\"> is immediately after <head> in all 50 pages.")
         print("2. <title> length is strictly 48-58 characters across all 50 pages.")
         print("3. <meta name=\"description\"> length is strictly 135-155 characters across all 50 pages.")
-        print("4. All canonicals, og:url tags, and internal <a href> links end with '/'.")
+        print("4. Homepage canonical is 'https://statkick.pages.dev/' and all 49 subpages & internal links have NO trailing slash.")
         print("5. Zero external Unsplash URLs — all images are local WebP with explicit dimensions.")
         print("=" * 60)
 

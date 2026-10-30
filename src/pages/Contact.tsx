@@ -10,7 +10,7 @@ export const ContactPage: React.FC = () => {
   const seoData = {
     title: 'Contact StatKick — Football Analytics Support & Feedback',
     description: 'Get in touch with the StatKick analytics team. Inquire about our football mathematical models, suggest new calculators, or submit feedback.',
-    canonicalPath: '/contact/',
+    canonicalPath: '/contact',
   };
 
   const [name, setName] = useState('');

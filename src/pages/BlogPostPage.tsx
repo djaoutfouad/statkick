@@ -25,7 +25,7 @@ export const BlogPostPage: React.FC = () => {
   const post = BLOG_POSTS.find((p) => p.slug === slug);
 
   if (!post) {
-    return <Navigate to="/blog/" replace />;
+    return <Navigate to="/blog" replace />;
   }
 
   // Related tools
@@ -56,7 +56,7 @@ export const BlogPostPage: React.FC = () => {
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${siteConfig.url}/blog/${post.slug}/`,
+      '@id': `${siteConfig.url}/blog/${post.slug}`,
     },
   };
 
@@ -65,14 +65,14 @@ export const BlogPostPage: React.FC = () => {
       <SEOHead
         title={post.seoTitle || `${post.title} | StatKick`}
         description={post.excerpt}
-        canonicalPath={`/blog/${post.slug}/`}
+        canonicalPath={`/blog/${post.slug}`}
         image={post.imageUrl}
         structuredData={articleStructuredData}
       />
       {/* Breadcrumb / Back link */}
       <div>
         <Link
-          to="/blog/"
+          to="/blog"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-green-700 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
@@ -247,7 +247,7 @@ export const BlogPostPage: React.FC = () => {
               return (
                 <Link
                   key={tool.slug}
-                  to={`/tools/${tool.slug}/`}
+                  to={`/tools/${tool.slug}`}
                   className="bg-white border border-gray-200 rounded-xl p-4 hover:border-green-400 hover:shadow-md transition-all group flex flex-col justify-between"
                 >
                   <div>
@@ -285,7 +285,7 @@ export const BlogPostPage: React.FC = () => {
             {relatedArticles.map((rel) => (
               <Link
                 key={rel.slug}
-                to={`/blog/${rel.slug}/`}
+                to={`/blog/${rel.slug}`}
                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all group"
               >
                 <span className="text-[10px] font-bold text-gray-600 uppercase tracking-wider">

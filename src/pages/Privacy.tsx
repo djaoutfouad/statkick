@@ -9,7 +9,7 @@ export const PrivacyPage: React.FC = () => {
   const seoData = {
     title: 'Privacy Policy & Client-Side Data Security | StatKick',
     description: 'Review StatKick privacy disclosures covering local client-side browser computations, minimal storage, cookie preferences, and data protection.',
-    canonicalPath: '/privacy/',
+    canonicalPath: '/privacy',
   };
 
   return (
@@ -122,7 +122,7 @@ export const PrivacyPage: React.FC = () => {
             </button>
           </div>
           <p className="mt-2 text-xs text-gray-600">
-            For further privacy questions, reach out via our <a href="/contact/" className="text-green-700 underline">Contact page</a>.
+            For further privacy questions, reach out via our <a href="/contact" className="text-green-700 underline">Contact page</a>.
           </p>
         </div>
       </article>

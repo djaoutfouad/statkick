@@ -86,7 +86,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       </div>
 
       <Link
-        to={`/tools/${tool.slug}/`}
+        to={`/tools/${tool.slug}`}
         className="absolute inset-0 z-20"
         aria-label={`Open ${displayName} calculator`}
       />

@@ -46,7 +46,7 @@ export const Blog: React.FC = () => {
   const seoData = {
     title: 'Football Analytics & Tactical Insights Blog | StatKick',
     description: 'In-depth articles exploring Expected Goals (xG), PPDA pressing intensity, player rating formulas, transfer valuations, and tactical systems.',
-    canonicalPath: '/blog/',
+    canonicalPath: '/blog',
   };
 
   return (
@@ -76,7 +76,7 @@ export const Blog: React.FC = () => {
               <span>{t.blog.featuredArticle}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white leading-snug">
-              <Link to={`/blog/${featuredPost.slug}/`} className="hover:text-green-300 transition-colors">
+              <Link to={`/blog/${featuredPost.slug}`} className="hover:text-green-300 transition-colors">
                 {featuredPost.title}
               </Link>
             </h2>
@@ -98,7 +98,7 @@ export const Blog: React.FC = () => {
             </div>
             <div className="pt-3">
               <Link
-                to={`/blog/${featuredPost.slug}/`}
+                to={`/blog/${featuredPost.slug}`}
                 aria-label={`Read full article on ${featuredPost.title}`}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-500 hover:bg-green-400 active:bg-green-600 text-gray-950 font-bold text-xs transition-all shadow-md"
               >
@@ -164,7 +164,7 @@ export const Blog: React.FC = () => {
               className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group"
             >
               <div className="space-y-3">
-                <Link to={`/blog/${post.slug}/`} className="block overflow-hidden rounded-xl">
+                <Link to={`/blog/${post.slug}`} className="block overflow-hidden rounded-xl">
                   <img
                     src={post.imageUrl || '/images/tool-performance-rater.webp'}
                     alt={post.title}
@@ -185,7 +185,7 @@ export const Blog: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="text-base font-bold text-gray-900 group-hover:text-green-700 transition-colors line-clamp-2">
-                  <Link to={`/blog/${post.slug}/`}>{post.title}</Link>
+                  <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                 </h3>
                 <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">
                   {post.excerpt}
@@ -198,7 +198,7 @@ export const Blog: React.FC = () => {
                   {post.date}
                 </span>
                 <Link
-                  to={`/blog/${post.slug}/`}
+                  to={`/blog/${post.slug}`}
                   aria-label={`Read full article on ${post.title}`}
                   className="inline-flex items-center gap-1 text-xs font-bold text-green-700 group-hover:text-green-800 transition-colors"
                 >

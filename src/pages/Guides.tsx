@@ -18,7 +18,7 @@ export const Guides: React.FC = () => {
   const seoData = {
     title: 'Football Analytics & Tactical Analysis Guides | StatKick',
     description: 'Step-by-step guides explaining how to analyze players, compare teams, measure pressing intensity (PPDA), and evaluate match statistics.',
-    canonicalPath: '/guides/',
+    canonicalPath: '/guides',
   };
 
   return (
@@ -90,7 +90,7 @@ export const Guides: React.FC = () => {
 
               <div>
                 <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-700 transition-colors">
-                  <Link to={`/guides/${guide.slug}/`}>{guide.title}</Link>
+                  <Link to={`/guides/${guide.slug}`}>{guide.title}</Link>
                 </h3>
                 <p className="text-xs text-green-700 font-medium mt-0.5">{guide.tagline}</p>
               </div>
@@ -120,7 +120,7 @@ export const Guides: React.FC = () => {
                 {guide.category}
               </span>
               <Link
-                to={`/guides/${guide.slug}/`}
+                to={`/guides/${guide.slug}`}
                 aria-label={`Read guide on ${guide.title}`}
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 group-hover:text-green-800 transition-colors"
               >

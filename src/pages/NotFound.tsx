@@ -55,7 +55,7 @@ export const NotFoundPage: React.FC = () => {
           {TOOLS_LIST.slice(0, 4).map((tool) => (
             <Link
               key={tool.slug}
-              to={`/tools/${tool.slug}/`}
+              to={`/tools/${tool.slug}`}
               className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 text-xs font-medium text-gray-800 transition-colors"
             >
               <span>{tool.name}</span>

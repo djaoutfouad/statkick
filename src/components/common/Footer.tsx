@@ -45,27 +45,27 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/blog/" className="hover:text-green-700 transition-colors">
+                <Link to="/blog" className="hover:text-green-700 transition-colors">
                   {t.nav.blog}
                 </Link>
               </li>
               <li>
-                <Link to="/guides/" className="hover:text-green-700 transition-colors">
+                <Link to="/guides" className="hover:text-green-700 transition-colors">
                   {t.nav.guides}
                 </Link>
               </li>
               <li>
-                <Link to="/methodology/" className="hover:text-green-700 transition-colors">
+                <Link to="/methodology" className="hover:text-green-700 transition-colors">
                   {t.nav.methodology}
                 </Link>
               </li>
               <li>
-                <Link to="/about/" className="hover:text-green-700 transition-colors">
+                <Link to="/about" className="hover:text-green-700 transition-colors">
                   {t.nav.about}
                 </Link>
               </li>
               <li>
-                <Link to="/contact/" className="hover:text-green-700 transition-colors">
+                <Link to="/contact" className="hover:text-green-700 transition-colors">
                   {t.nav.contact}
                 </Link>
               </li>
@@ -79,22 +79,22 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link to="/privacy/" className="hover:text-green-700 transition-colors">
+                <Link to="/privacy" className="hover:text-green-700 transition-colors">
                   {t.footer.privacyPolicy}
                 </Link>
               </li>
               <li>
-                <Link to="/terms/" className="hover:text-green-700 transition-colors">
+                <Link to="/terms" className="hover:text-green-700 transition-colors">
                   {t.footer.termsOfUse}
                 </Link>
               </li>
               <li>
-                <Link to="/cookies/" className="hover:text-green-700 transition-colors">
+                <Link to="/cookies" className="hover:text-green-700 transition-colors">
                   {t.footer.cookiePolicy}
                 </Link>
               </li>
               <li>
-                <Link to="/disclaimer/" className="hover:text-green-700 transition-colors">
+                <Link to="/disclaimer" className="hover:text-green-700 transition-colors">
                   {t.footer.disclaimer}
                 </Link>
               </li>

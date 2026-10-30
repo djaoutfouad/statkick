@@ -7,7 +7,7 @@ export const AboutPage: React.FC = () => {
   const seoData = {
     title: 'About StatKick — Football Stats Tools for Serious Fans',
     description: 'Learn about StatKick: our mission, mathematical methodologies, client-side privacy architecture, and 21 dedicated football analytics tools.',
-    canonicalPath: '/about/',
+    canonicalPath: '/about',
   };
 
   return (

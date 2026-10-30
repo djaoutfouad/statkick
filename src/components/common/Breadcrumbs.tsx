@@ -8,10 +8,10 @@ interface BreadcrumbsProps {
 }
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
-  const ensureSlash = (path: string) => {
+  const normalizePath = (path: string) => {
     if (!path || path === '/') return '/';
     if (path.includes('#')) return '/';
-    return path.endsWith('/') ? path : `${path}/`;
+    return path.replace(/\/+$/, '');
   };
 
   return (
@@ -37,7 +37,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
                 </span>
               ) : (
                 <Link
-                  to={ensureSlash(item.path)}
+                  to={normalizePath(item.path)}
                   className="hover:text-green-700 transition-colors"
                 >
                   {item.label}

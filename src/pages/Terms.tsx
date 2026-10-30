@@ -7,7 +7,7 @@ export const TermsPage: React.FC = () => {
   const seoData = {
     title: 'Terms of Use & Football Calculator License | StatKick',
     description: 'Review the official Terms of Use and licensing guidelines governing the StatKick platform, 21 football statistical calculators, and data guides.',
-    canonicalPath: '/terms/',
+    canonicalPath: '/terms',
   };
 
   return (

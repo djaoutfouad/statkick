@@ -10,7 +10,7 @@ export const Disclaimer: React.FC = () => {
   const seoData = {
     title: 'Editorial Policy & Mathematical Disclaimer | StatKick',
     description: 'Read the StatKick informational and mathematical disclaimer: all 21 football calculations are quantitative models for educational research only.',
-    canonicalPath: '/disclaimer/',
+    canonicalPath: '/disclaimer',
   };
 
   return (

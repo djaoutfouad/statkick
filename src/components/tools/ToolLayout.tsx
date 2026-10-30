@@ -63,7 +63,7 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
         operatingSystem: 'All',
         browserRequirements: 'Requires JavaScript',
         description: seoDesc,
-        url: `${siteConfig.url}/tools/${tool.slug}/`,
+        url: `${siteConfig.url}/tools/${tool.slug}`,
         image: tool.personaImageUrl ? `${siteConfig.url}${tool.personaImageUrl}` : `${siteConfig.url}/images/hero-stadium.webp`,
         offers: {
           '@type': 'Offer',
@@ -73,7 +73,7 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
         author: {
           '@type': 'Organization',
           name: 'StatKick',
-          url: `${siteConfig.url}/about/`,
+          url: `${siteConfig.url}/about`,
         },
       },
       {
@@ -95,7 +95,7 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
       <SEOHead
         title={seoTitle}
         description={seoDesc}
-        canonicalPath={`/tools/${tool.slug}/`}
+        canonicalPath={`/tools/${tool.slug}`}
         image={tool.personaImageUrl}
         structuredData={seoStructuredData}
       />
